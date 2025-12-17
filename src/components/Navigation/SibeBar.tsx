@@ -9,6 +9,8 @@ import AddIcon from "@mui/icons-material/Add";
 
 const SIDEBAR_WIDTH = { default: "225px", desktop: "260px" };
 
+export const a = null;
+
 const style = {
   root: ({ breakpoints }) => ({
     width: SIDEBAR_WIDTH.default,
@@ -62,5 +64,4 @@ const SideBar = () => {
     </Box>
   );
 };
-
 export default SideBar;

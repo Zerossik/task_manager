@@ -12,7 +12,7 @@ const LinkBehavior = React.forwardRef<
   Omit<RouterLinkProps, "to"> & { href: RouterLinkProps["to"] }
 >((props, ref) => {
   const { href, ...other } = props;
-  // Map href (Material UI) -> to (react-router)
+
   return <RouterLink ref={ref} to={href} {...other} />;
 });
 
@@ -41,6 +41,14 @@ const brandedComponents: ThemeOptions["components"] = {
   MuiContainer: {
     defaultProps: {
       maxWidth: "max",
+    },
+    styleOverrides: {
+      root: ({ theme }) => ({
+        padding: `0 ${theme.spacing(5)}`,
+        [theme.breakpoints.up("desktop")]: {
+          padding: `0 ${theme.spacing(6)}`,
+        },
+      }),
     },
   },
   MuiButton: {

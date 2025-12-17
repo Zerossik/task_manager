@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 
 import type { RootState } from "@/store/store";
 import { useColorScheme } from "@mui/material/styles";
-import MobileNavigation from "@/components/SideBar/MobileNavigation";
+import { Navigation } from "@/components/Navigation";
 
 const Header = () => {
   const userName = useSelector((state: RootState) => state.user.userName);
@@ -24,7 +24,7 @@ const Header = () => {
     <AppBar position="static">
       <Container>
         <Toolbar sx={{ padding: 0 }}>
-          <MobileNavigation />
+          <Navigation />
           <Stack direction="row" alignItems="center" gap={2} ml="auto">
             <FormControl>
               <Select
