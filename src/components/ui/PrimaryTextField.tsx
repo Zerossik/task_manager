@@ -1,19 +1,6 @@
+import { isValidColor } from "@/types/guards/isValidColor";
 import { styled } from "@mui/material/styles";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
-import type { ValidColors } from "@/Theme/types/theme.types";
-
-const isValidColor = (value: unknown): value is ValidColors => {
-  const colors: string[] = [
-    "primary",
-    "secondary",
-    "error",
-    "info",
-    "success",
-    "warning",
-  ];
-  if (typeof value === "string") return colors.includes(value);
-  return false;
-};
 
 const CustomTextField = styled(TextField)<TextFieldProps>(
   ({ theme, color, error }) => {

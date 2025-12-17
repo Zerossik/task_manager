@@ -13,7 +13,7 @@ export const darkPalette: PaletteOptions = {
     contrastText: "#161616",
   },
   text: { primary: "#ffffff", secondary: "#888888" },
-  background: { default: "#1f1f1f" },
+  background: { default: "#1f1f1f", paper: "#121212" },
 };
 
 export const lightPalette: PaletteOptions = {
@@ -29,5 +29,5 @@ export const lightPalette: PaletteOptions = {
     contrastText: "#161616",
   },
   text: { primary: "#161616", secondary: "#8b8b8b" },
-  background: { default: "#f6f6f7" },
+  background: { default: "#f6f6f7", paper: "#ffffff" },
 };

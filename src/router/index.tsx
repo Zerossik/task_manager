@@ -1,9 +1,10 @@
-import { createBrowserRouter, Outlet } from "react-router";
+import { createBrowserRouter } from "react-router";
 import { RootLayout } from "./RootLayout";
-import { lazyRoute } from "@/lib/lazyRoute";
+
 import { PageLoader } from "@/components/PageLoader";
 import { HomeRoute } from "./routes/Home/HomeRoute";
-import ProtectedRoute from "@/components/ProtectedRoute";
+
+import { DashboardRoute } from "./routes/Dashboard/DashboardRoute";
 
 const router = createBrowserRouter([
   {
@@ -11,20 +12,7 @@ const router = createBrowserRouter([
     hydrateFallbackElement: <PageLoader />,
     children: [
       HomeRoute,
-      {
-        path: "/dashboard",
-        element: (
-          <ProtectedRoute>
-            <Outlet />
-          </ProtectedRoute>
-        ),
-        children: [
-          {
-            index: true,
-            lazy: lazyRoute(() => import("@/pages/Dashboard"), "default"),
-          },
-        ],
-      },
+      DashboardRoute,
       {
         path: "login",
         element: <div>Login</div>,

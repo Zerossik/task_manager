@@ -7,7 +7,6 @@ import startPageLogo from "@/assets/images/startPageLogo.png";
 import startPageLogo2x from "@/assets/images/startPageLogo@2x.png";
 import { Typography } from "@mui/material";
 import StartPageNameForm from "@/components/StartPageNameForm";
-import { useNavigate } from "react-router";
 
 const style: Record<string, SxProps<Theme>> = {
   mainContainer: {
@@ -47,7 +46,7 @@ const HomePage = () => {
           <img src={startPageLogo} alt="start page logo" />
         </picture>
 
-        <Logo />
+        <Logo slot={{ icon: { fontSize: "large" } }} />
         <Box sx={style.formWrap}>
           <Typography marginBottom={4}>
             Supercharge your productivity and take control of your tasks with

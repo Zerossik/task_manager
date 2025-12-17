@@ -1,16 +1,29 @@
-import logoIcon from "@/assets/icons/logoIcon.svg";
-import { Typography } from "@mui/material";
-import Stack from "@mui/material/Stack";
+import { Typography, useTheme, type TypographyProps } from "@mui/material";
+import Stack, { type StackProps } from "@mui/material/Stack";
+import { LogoIcon, type LogoIconType } from "./IconLogo";
 
-const Logo = () => {
+type SlotType = {
+  text?: TypographyProps;
+  icon?: LogoIconType;
+};
+
+type PropsType = {
+  slot?: SlotType;
+} & Omit<StackProps, "slot">;
+
+const Logo = ({ slot, ...props }: PropsType) => {
+  const theme = useTheme();
+
+  const iconVariant = theme.palette.mode === "dark" ? "light" : "dark";
   return (
-    <Stack direction="row" gap={2} alignItems="center">
-      <img src={logoIcon} alt="Logo Icon" />
+    <Stack direction="row" gap={2} alignItems="center" {...props}>
+      <LogoIcon variant={iconVariant} {...slot?.icon} />
       <Typography
         color="primary.contrastText"
         variant="body1"
-        fontSize={32}
+        fontSize="1rem"
         fontWeight={600}
+        {...slot?.text}
       >
         Task manager
       </Typography>
