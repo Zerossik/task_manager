@@ -6,6 +6,7 @@ declare module "@mui/material/IconButton" {
   }
 }
 
+// change breakpoint names
 declare module "@mui/material/styles" {
   interface BreakpointOverrides {
     xs: false; // removes the `xs` breakpoint
@@ -17,5 +18,28 @@ declare module "@mui/material/styles" {
     tablet: true;
     desktop: true;
     max: true;
+  }
+}
+
+// add custom properties to the theme object
+declare module "@mui/material/styles" {
+  interface Theme {
+    layout: {
+      sidebar: {
+        desktopWidth: number;
+        mobileWidth: number;
+        tabletWidth: number;
+      };
+    };
+  }
+  // allow configuration using `createTheme()`
+  interface ThemeOptions {
+    layout?: {
+      sidebar?: {
+        desktopWidth: number;
+        mobileWidth: number;
+        tabletWidth: number;
+      };
+    };
   }
 }

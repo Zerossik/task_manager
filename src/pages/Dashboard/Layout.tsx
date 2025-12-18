@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router";
-const DRAWER_WIDTH = 260;
 
 const Layout = () => {
   const isOpenDrawer = useSelector(
@@ -21,7 +20,10 @@ const Layout = () => {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
           }),
-        ml: isOpenDrawer && !isMobile ? `${DRAWER_WIDTH}px` : 0,
+        ml: (theme) =>
+          isOpenDrawer && !isMobile
+            ? `${theme.layout?.sidebar.desktopWidth}px`
+            : 0,
       }}
     >
       <Header />

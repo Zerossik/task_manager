@@ -7,14 +7,17 @@ import Typography from "@mui/material/Typography";
 import { IconButton } from "@/components/ui/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 
-const SIDEBAR_WIDTH = { default: "225px", desktop: "260px" };
-
 export const a = null;
 
 const style = {
-  root: ({ breakpoints }) => ({
-    width: SIDEBAR_WIDTH.default,
-    [breakpoints.up("desktop")]: { width: SIDEBAR_WIDTH.desktop },
+  root: (theme) => ({
+    width: theme.layout?.sidebar.mobileWidth,
+    [theme.breakpoints.up("tablet")]: {
+      width: theme.layout?.sidebar.tabletWidth,
+    },
+    [theme.breakpoints.up("desktop")]: {
+      width: theme.layout?.sidebar.desktopWidth,
+    },
   }),
   innerBox: {
     padding: 3.5,

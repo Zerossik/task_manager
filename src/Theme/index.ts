@@ -22,4 +22,11 @@ export const theme = createTheme({
     borderRadius: 4,
   },
   components,
+  layout: {
+    sidebar: {
+      desktopWidth: 260,
+      mobileWidth: 225,
+      tabletWidth: 240,
+    },
+  },
 });
