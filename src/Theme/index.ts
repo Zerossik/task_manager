@@ -27,6 +27,8 @@ export const theme = createTheme({
       desktopWidth: 260,
       mobileWidth: 225,
       tabletWidth: 240,
+      padding: 3.5,
     },
+    dialog: { maxWidth: "400px" },
   },
 });

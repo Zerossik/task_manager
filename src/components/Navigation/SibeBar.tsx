@@ -2,10 +2,9 @@ import Box from "@mui/material/Box";
 import type { Theme } from "@mui/material/styles";
 import type { SxProps } from "@mui/material/styles";
 import Logo from "@/components/Logo";
-import Stack from "@mui/material/Stack";
+
 import Typography from "@mui/material/Typography";
-import { IconButton } from "@/components/ui/IconButton";
-import AddIcon from "@mui/icons-material/Add";
+import Boards from "@/components/Boards/Boards";
 
 export const a = null;
 
@@ -33,16 +32,6 @@ const style = {
     borderBottom: 1,
     mb: 3.5,
   },
-  addButton: {
-    width: 40,
-    height: 40,
-    color: "secondary.contrastText",
-    bgcolor: "secondary.main",
-
-    "&:hover": {
-      bgcolor: "secondary.dark",
-    },
-  },
 } satisfies Record<string, SxProps<Theme>>;
 
 const SideBar = () => {
@@ -53,17 +42,8 @@ const SideBar = () => {
         <Typography color="textSecondary" sx={style.boardsSectionTitle}>
           My boards
         </Typography>
-        <Stack
-          justifyContent="space-between"
-          alignItems="center"
-          direction="row"
-        >
-          <Typography fontWeight={600}>Create a new board</Typography>
-          <IconButton aria-label="add board" sx={style.addButton}>
-            <AddIcon />
-          </IconButton>
-        </Stack>
       </Box>
+      <Boards />
     </Box>
   );
 };

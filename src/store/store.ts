@@ -1,5 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "@/features/user";
+import boardsReducer from "@/features/boards/boardSlice";
+import modalReducer from "@/features/modal/modalSlice";
 import {
   persistStore,
   persistReducer,
@@ -16,10 +18,13 @@ const persistConfig = {
   key: "root",
   storage,
   // whitelist: [""],
+  blacklist: ["modal"],
 };
 
 const rootReducer = combineReducers({
   user: userReducer,
+  boards: boardsReducer,
+  modal: modalReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

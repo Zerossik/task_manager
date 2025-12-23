@@ -1,3 +1,4 @@
+// import ModalHost from "@/components/ModalHost/ModalHost";
 import Header from "@/components/TopBar";
 import type { RootState } from "@/store/store";
 import { useMediaQuery } from "@mui/material";
@@ -6,7 +7,7 @@ import Box from "@mui/material/Box";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router";
 
-const Layout = () => {
+const DashboardLayout = () => {
   const isOpenDrawer = useSelector(
     ({ user }: RootState) => user.isDrawerOpenByDefault
   );
@@ -24,14 +25,25 @@ const Layout = () => {
           isOpenDrawer && !isMobile
             ? `${theme.layout?.sidebar.desktopWidth}px`
             : 0,
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Header />
-      <Box component="main">
+      <Box
+        component="main"
+        sx={{
+          flex: 1,
+          display: "flex",
+          minHeight: 0,
+        }}
+      >
         <Outlet />
+        {/* <ModalHost /> */}
       </Box>
     </Box>
   );
 };
 
-export default Layout;
+export default DashboardLayout;

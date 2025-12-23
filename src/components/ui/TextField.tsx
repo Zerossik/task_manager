@@ -1,8 +1,8 @@
 import { isValidColor } from "@/types/guards/isValidColor";
 import { styled } from "@mui/material/styles";
-import TextField, { type TextFieldProps } from "@mui/material/TextField";
+import MuiTextField, { type TextFieldProps } from "@mui/material/TextField";
 
-const CustomTextField = styled(TextField)<TextFieldProps>(
+const CustomTextField = styled(MuiTextField)<TextFieldProps>(
   ({ theme, color, error }) => {
     if (isValidColor(color)) {
       const paletteColor = theme.palette[error ? "error" : color];

@@ -67,6 +67,35 @@ const brandedComponents: ThemeOptions["components"] = {
       }),
     },
   },
+  MuiDialog: {
+    styleOverrides: {
+      paper: ({ theme }) => ({
+        padding: theme.spacing(6),
+      }),
+    },
+  },
+  MuiDialogTitle: {
+    styleOverrides: {
+      root: {
+        padding: 0,
+      },
+    },
+  },
+  MuiDialogContent: {
+    styleOverrides: {
+      root: {
+        // padding: `${theme.spacing(6)} 0`,
+        padding: 0,
+      },
+    },
+  },
+  MuiDialogActions: {
+    styleOverrides: {
+      root: {
+        padding: 0,
+      },
+    },
+  },
 };
 
 export default brandedComponents;

@@ -29,6 +29,10 @@ declare module "@mui/material/styles" {
         desktopWidth: number;
         mobileWidth: number;
         tabletWidth: number;
+        padding: number;
+      };
+      dialog: {
+        maxWidth: string;
       };
     };
   }
@@ -39,6 +43,10 @@ declare module "@mui/material/styles" {
         desktopWidth: number;
         mobileWidth: number;
         tabletWidth: number;
+        padding: number;
+      };
+      dialog?: {
+        maxWidth: string;
       };
     };
   }
