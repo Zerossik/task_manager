@@ -18,12 +18,9 @@ const boardSlice = createSlice({
       const index = state.findIndex((board) => board.id === payload);
       if (index !== -1) state.splice(index, 1);
     },
-    updateBoardById: (
-      state,
-      { payload }: PayloadAction<{ id: string; board: Partial<Board> }>
-    ) => {
+    updateBoardById: (state, { payload }: PayloadAction<Board>) => {
       const index = state.findIndex((board) => board.id === payload.id);
-      const updatedBoard = { ...state[index], ...payload.board };
+      const updatedBoard = { ...state[index], ...payload };
       state.splice(index, 1, updatedBoard);
     },
   },

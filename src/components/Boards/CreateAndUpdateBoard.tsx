@@ -23,6 +23,7 @@ export interface UpdateBoardProps {
   onTitleChange: (title: string) => void;
   onClose: () => void;
   open: boolean;
+  error: string;
 }
 const CreateAndUpdateBoard = ({
   id,
@@ -31,13 +32,13 @@ const CreateAndUpdateBoard = ({
   onSubmit,
   onClose,
   open,
+  error,
 }: UpdateBoardProps) => {
   const isValidTitle = title.trim().length > 1;
 
   const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(e);
-    onClose();
   };
 
   return (
@@ -53,7 +54,11 @@ const CreateAndUpdateBoard = ({
         </IconButton>
       </Stack>
       <DialogContent>
-        <form onSubmit={handlerSubmit}>
+        <Stack
+          component="form"
+          onSubmit={handlerSubmit}
+          sx={{ gap: 2, paddingTop: 2 }}
+        >
           <TextField
             color="secondary"
             label="title"
@@ -62,6 +67,8 @@ const CreateAndUpdateBoard = ({
             required
             value={title}
             onChange={(e) => onTitleChange(e.target.value)}
+            helperText={error}
+            error={Boolean(error)}
           />
           <Button
             type="submit"
@@ -72,7 +79,7 @@ const CreateAndUpdateBoard = ({
           >
             {id ? "Edit" : "Create"}
           </Button>
-        </form>
+        </Stack>
       </DialogContent>
     </Dialog>
   );

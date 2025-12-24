@@ -29,10 +29,19 @@ export type BoardsDialogMode =
   | "deleteBoard"
   | null;
 
+type BoardMode =
+  | {
+      mode: null;
+    }
+  | { mode: "createBoard" }
+  | { mode: "updateBoard"; boardId: string }
+  | { mode: "deleteBoard"; boardId: string };
+
 const Boards = () => {
   const [mode, setMode] = useState<BoardsDialogMode>(null);
   const [boardTitle, setBoardTitle] = useState("");
   const [selectedId, setSelectedId] = useState<string | undefined>();
+  const [error, setError] = useState<string>("");
   const {
     boards,
     createBoard,
@@ -44,7 +53,8 @@ const Boards = () => {
   const navigate = useNavigate();
 
   const onCreateBoard = () => {
-    createBoard(boardTitle);
+    const result = createBoard(boardTitle);
+    if (!result.ok) return setError(result.error);
     resetState();
   };
 
@@ -59,7 +69,11 @@ const Boards = () => {
 
   const onUpdateBoard = () => {
     if (!selectedId || !boardTitle) return;
-    updateBoardById(selectedId, { title: boardTitle });
+
+    const result = updateBoardById(selectedId, { title: boardTitle });
+    if (!result.ok) return setError(result.error);
+
+    resetState();
   };
 
   const handleItemClick = useCallback(
@@ -79,7 +93,15 @@ const Boards = () => {
     setMode(null);
     setBoardTitle("");
     setSelectedId(undefined);
+    setError("");
   }
+
+  const handleTitleChange = (newValue: string) => {
+    setBoardTitle(newValue);
+    if (error) {
+      setError("");
+    }
+  };
 
   return (
     <>
@@ -102,21 +124,16 @@ const Boards = () => {
       <BoardList boards={boards} onClick={handleItemClick} />
 
       <CreateAndUpdateBoard
-        open={mode === "createBoard"}
+        open={mode === "createBoard" || mode === "updateBoard"}
         onClose={resetState}
-        onSubmit={() => onCreateBoard()}
-        onTitleChange={setBoardTitle}
-        title={boardTitle}
-      />
-      <CreateAndUpdateBoard
-        open={mode === "updateBoard"}
-        onClose={resetState}
-        onSubmit={() => onUpdateBoard()}
-        onTitleChange={setBoardTitle}
+        onSubmit={() =>
+          mode === "createBoard" ? onCreateBoard() : onUpdateBoard()
+        }
+        onTitleChange={handleTitleChange}
         title={boardTitle}
         id={selectedId}
+        error={error}
       />
-
       <ConfirmationModal
         open={mode === "deleteBoard"}
         message="are you sure?"
