@@ -8,7 +8,7 @@ import Button from "@ui/Button";
 import CustomAddIcon from "@ui/icons/AddIcon";
 import { IconButton } from "@/components/ui/IconButton";
 import type { SxProps, Theme } from "@mui/material";
-import type { FormEvent } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 
 const style = {
   dialogClose: {
@@ -20,7 +20,7 @@ export interface UpdateBoardProps {
   id?: string;
   title: string;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  onTitleChange: (title: string) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onClose: () => void;
   open: boolean;
   error: string;
@@ -28,7 +28,7 @@ export interface UpdateBoardProps {
 const CreateAndUpdateBoard = ({
   id,
   title,
-  onTitleChange,
+  onChange,
   onSubmit,
   onClose,
   open,
@@ -42,14 +42,10 @@ const CreateAndUpdateBoard = ({
   };
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={onClose}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <DialogTitle>{id ? "Edit board" : "New board"}</DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={() => onClose()}
-          sx={style.dialogClose}
-        >
+        <IconButton aria-label="close" onClick={onClose} sx={style.dialogClose}>
           <CloseIcon />
         </IconButton>
       </Stack>
@@ -66,7 +62,7 @@ const CreateAndUpdateBoard = ({
             size="small"
             required
             value={title}
-            onChange={(e) => onTitleChange(e.target.value)}
+            onChange={onChange}
             helperText={error}
             error={Boolean(error)}
           />
@@ -75,7 +71,7 @@ const CreateAndUpdateBoard = ({
             color="secondary"
             variant="contained"
             startIcon={<CustomAddIcon />}
-            disabled={!isValidTitle}
+            disabled={!isValidTitle || Boolean(error)}
           >
             {id ? "Edit" : "Create"}
           </Button>

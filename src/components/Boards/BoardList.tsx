@@ -9,7 +9,7 @@ import { DeleteIcon, EditIcon } from "@ui/icons";
 import type { SxProps } from "@mui/material";
 import { theme } from "@/Theme";
 import { memo } from "react";
-import type { BoardsDialogMode } from "./Boards";
+import type { DialogState } from "./Boards";
 
 const style = {
   item: {
@@ -32,10 +32,7 @@ const style = {
 
 interface BoardListProps {
   boards: Board[];
-  onClick: (
-    id: string,
-    action: Exclude<BoardsDialogMode, "createBoard" | null>
-  ) => void;
+  onClick: (mode: DialogState) => void;
 }
 
 const BoardList = ({ boards, onClick }: BoardListProps) => {
@@ -53,13 +50,17 @@ const BoardList = ({ boards, onClick }: BoardListProps) => {
           <Box>
             <IconButton
               sx={style.iconButtons}
-              onClick={() => onClick(board.id, "updateBoard")}
+              onClick={() =>
+                onClick({ mode: "updateBoard", boardId: board.id })
+              }
             >
               <EditIcon />
             </IconButton>
             <IconButton
               sx={style.iconButtons}
-              onClick={() => onClick(board.id, "deleteBoard")}
+              onClick={() =>
+                onClick({ mode: "deleteBoard", boardId: board.id })
+              }
             >
               <DeleteIcon />
             </IconButton>
