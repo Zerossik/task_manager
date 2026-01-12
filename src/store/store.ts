@@ -1,7 +1,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "@/features/user";
 import boardsReducer from "@/features/boards/boardSlice";
-import modalReducer from "@/features/modal/modalSlice";
+import columnsReducer from "@/features/columns/columnSlice";
+import taskReducer from "@/features/tasks/taskSlice";
 import {
   persistStore,
   persistReducer,
@@ -24,7 +25,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   boards: boardsReducer,
-  modal: modalReducer,
+  columns: columnsReducer,
+  tasks: taskReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

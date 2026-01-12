@@ -1,8 +1,8 @@
-// import ModalHost from "@/components/ModalHost/ModalHost";
 import Header from "@/components/TopBar";
 import type { RootState } from "@/store/store";
-import { useMediaQuery } from "@mui/material";
-import Box from "@mui/material/Box";
+import { theme } from "@/Theme";
+
+import { Stack, useMediaQuery } from "@mui/material";
 
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router";
@@ -14,7 +14,7 @@ const DashboardLayout = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("desktop"));
 
   return (
-    <Box
+    <Stack
       sx={{
         transition: (theme) =>
           theme.transitions.create("margin-left", {
@@ -23,26 +23,17 @@ const DashboardLayout = () => {
           }),
         ml: (theme) =>
           isOpenDrawer && !isMobile
-            ? `${theme.layout?.sidebar.desktopWidth}px`
+            ? `${theme.layout.sidebar.desktopWidth}px`
             : 0,
         height: "100vh",
-        display: "flex",
-        flexDirection: "column",
+        gap: theme.spacing(theme.spacingConfig.sectionGap.mobile),
       }}
     >
       <Header />
-      <Box
-        component="main"
-        sx={{
-          flex: 1,
-          display: "flex",
-          minHeight: 0,
-        }}
-      >
+      <Stack component="main" flex={1}>
         <Outlet />
-        {/* <ModalHost /> */}
-      </Box>
-    </Box>
+      </Stack>
+    </Stack>
   );
 };
 

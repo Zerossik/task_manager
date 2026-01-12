@@ -21,6 +21,18 @@ export const theme = createTheme({
   shape: {
     borderRadius: 4,
   },
+  spacingConfig: {
+    sectionGap: {
+      mobile: 5,
+    },
+    containerPadding: {
+      mobile: 5,
+      desktop: 6,
+    },
+    blockGap: {
+      mobile: 5,
+    },
+  },
   components,
   layout: {
     sidebar: {

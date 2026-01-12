@@ -37,7 +37,10 @@ interface BoardListProps {
 
 const BoardList = ({ boards, onClick }: BoardListProps) => {
   return (
-    <List>
+    <List
+      disablePadding
+      sx={(theme) => ({ mx: -theme.layout.sidebar.padding })}
+    >
       {boards.map((board) => (
         <ListItem key={board.id} sx={style.item}>
           <ListItemButton

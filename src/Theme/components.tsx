@@ -17,6 +17,13 @@ const LinkBehavior = React.forwardRef<
 });
 
 const brandedComponents: ThemeOptions["components"] = {
+  MuiToolbar: {
+    styleOverrides: {
+      root: {
+        padding: 0,
+      },
+    },
+  },
   MuiPaper: {
     styleOverrides: {
       root: {
@@ -39,14 +46,11 @@ const brandedComponents: ThemeOptions["components"] = {
     },
   },
   MuiContainer: {
-    defaultProps: {
-      maxWidth: "max",
-    },
     styleOverrides: {
       root: ({ theme }) => ({
-        padding: `0 ${theme.spacing(5)}`,
+        padding: theme.spacing(5),
         [theme.breakpoints.up("desktop")]: {
-          padding: `0 ${theme.spacing(6)}`,
+          padding: theme.spacing(6),
         },
       }),
     },
@@ -71,6 +75,7 @@ const brandedComponents: ThemeOptions["components"] = {
     styleOverrides: {
       paper: ({ theme }) => ({
         padding: theme.spacing(6),
+        margin: 0,
       }),
     },
   },
@@ -93,6 +98,21 @@ const brandedComponents: ThemeOptions["components"] = {
     styleOverrides: {
       root: {
         padding: 0,
+      },
+    },
+  },
+  MuiSvgIcon: {
+    defaultProps: { fontSize: "medium" },
+    styleOverrides: {
+      root: ({ ownerState }) => {
+        switch (ownerState.fontSize) {
+          case "small":
+            return { fontSize: 16 };
+          case "medium":
+            return { fontSize: 24 };
+          case "large":
+            return { fontSize: 32 };
+        }
       },
     },
   },

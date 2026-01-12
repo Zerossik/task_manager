@@ -35,6 +35,23 @@ declare module "@mui/material/styles" {
         maxWidth: string;
       };
     };
+    spacingConfig: {
+      sectionGap: {
+        mobile: number;
+        tablet: number;
+        desktop: number;
+      };
+      containerPadding: {
+        mobile: number;
+        tablet: number;
+        desktop: number;
+      };
+      blockGap: {
+        mobile: number;
+        tablet: number;
+        desktop: number;
+      };
+    };
   }
   // allow configuration using `createTheme()`
   interface ThemeOptions {
@@ -47,6 +64,23 @@ declare module "@mui/material/styles" {
       };
       dialog?: {
         maxWidth: string;
+      };
+    };
+    spacingConfig?: {
+      sectionGap?: {
+        mobile?: number;
+        tablet?: number;
+        desktop?: number;
+      };
+      containerPadding?: {
+        mobile?: number;
+        tablet?: number;
+        desktop?: number;
+      };
+      blockGap?: {
+        mobile?: number;
+        tablet?: number;
+        desktop?: number;
       };
     };
   }

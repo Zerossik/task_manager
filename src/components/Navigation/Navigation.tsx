@@ -23,10 +23,9 @@ const Navigation = () => {
   return (
     <>
       <IconButton
-        size="large"
-        edge="start"
+        size="small"
         color="inherit"
-        aria-label="menu"
+        aria-label="toggle menu"
         onClick={handlertoggleDrawer}
       >
         <MenuIcon />

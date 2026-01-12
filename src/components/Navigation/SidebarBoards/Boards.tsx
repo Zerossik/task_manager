@@ -7,11 +7,10 @@ import BoardList from "./BoardList";
 import { type SxProps, type Theme } from "@mui/material";
 import { memo, useCallback, useState } from "react";
 import CreateAndUpdateBoard from "./CreateAndUpdateBoard";
-import { ConfirmationModal } from "../ConfirmationModal/ConfirmationModal";
+import { ConfirmationModal } from "../../ConfirmationModal/ConfirmationModal";
 import { useNavigate, useParams } from "react-router";
 
 const style = {
-  sectionTitle: (theme) => ({ p: theme?.layout.sidebar.padding }),
   addButton: {
     width: 40,
     height: 40,
@@ -138,20 +137,20 @@ type SectionTitleType = {
 
 function SectionTitle({ onClick }: SectionTitleType) {
   return (
-    <Stack
-      direction="row"
-      alignItems="center"
-      justifyContent="space-between"
-      sx={style.sectionTitle}
-    >
-      <Typography fontWeight={600}>Create a new board</Typography>
-      <IconButton
-        aria-label="add board"
-        sx={style.addButton}
-        onClick={() => onClick({ mode: "createBoard" })}
-      >
-        <AddIcon />
-      </IconButton>
+    <Stack gap={(theme) => theme.spacingConfig.blockGap.mobile}>
+      <Typography color="textSecondary" borderBottom={1}>
+        My boards
+      </Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Typography fontWeight={600}>Create a new board</Typography>
+        <IconButton
+          aria-label="add board"
+          sx={style.addButton}
+          onClick={() => onClick({ mode: "createBoard" })}
+        >
+          <AddIcon />
+        </IconButton>
+      </Stack>
     </Stack>
   );
 }

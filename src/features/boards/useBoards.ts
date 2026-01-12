@@ -40,6 +40,11 @@ export const useBoards = () => {
     [boards]
   );
 
+  const getBoardBySlug = useCallback(
+    (slug: string) => boards.find((board) => board.slug === slug) || null,
+    [boards]
+  );
+
   const updateBoardById = useCallback(
     (id: string, updates: Partial<Board>): Response => {
       const board = boards.find((board) => board.id === id);
@@ -70,6 +75,7 @@ export const useBoards = () => {
     createBoard,
     deleteBoardById,
     getBoardById,
+    getBoardBySlug,
     updateBoardById,
   };
 };

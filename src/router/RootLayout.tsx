@@ -7,7 +7,7 @@ export const RootLayout = () => {
   const isLoading = navigation.state !== "idle";
 
   return (
-    <Box sx={{ height: "100vh" }}>
+    <Box>
       {isLoading && <PageLoader />}
       <Outlet />
     </Box>

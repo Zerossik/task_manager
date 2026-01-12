@@ -14,7 +14,7 @@ const style: Record<string, SxProps<Theme>> = {
     justifyContent: "center",
     alignItems: "center",
 
-    height: "100%",
+    height: "100vh",
     background: (theme) =>
       `linear-gradient(to bottom, #ffffff 20%,${theme.palette.secondary.main})`,
   },

@@ -2,7 +2,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { lazyRoute } from "@/lib/lazyRoute";
 import { DashboardLayout } from "@/pages/Dashboard";
 
-import { Outlet, type RouteObject } from "react-router";
+import type { RouteObject } from "react-router";
 
 export const DashboardRoute: RouteObject = {
   path: "/dashboard",
@@ -18,11 +18,7 @@ export const DashboardRoute: RouteObject = {
     },
     {
       path: ":slug",
-      element: (
-        <div>
-          THIS IS BOARD <Outlet />
-        </div>
-      ),
+      lazy: lazyRoute(() => import("@/pages/Dashboard"), "BoardPage"),
       children: [{ path: ":id", element: <div>HERE WILL BE A MODAL</div> }],
     },
   ],

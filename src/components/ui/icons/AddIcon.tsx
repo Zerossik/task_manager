@@ -1,6 +1,13 @@
 import { SvgIcon, type SvgIconProps } from "@mui/material";
 
-const AddIcon = (props: SvgIconProps) => {
+type PropsTypes = {
+  variant?: "White" | "black";
+};
+
+const AddIcon = ({
+  variant = "black",
+  ...props
+}: SvgIconProps & PropsTypes) => {
   const { width, height } = props;
   return (
     <SvgIcon
@@ -10,17 +17,17 @@ const AddIcon = (props: SvgIconProps) => {
     >
       <path
         d="M22 0H6C2.68629 0 0 2.68629 0 6V22C0 25.3137 2.68629 28 6 28H22C25.3137 28 28 25.3137 28 22V6C28 2.68629 25.3137 0 22 0Z"
-        fill="#161616"
+        fill={variant === "black" ? "#161616" : "#ffffff"}
       />
       <path
         d="M14 9.9165V18.0832"
-        stroke="white"
+        stroke={variant === "black" ? "#ffffff" : "#161616"}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M9.9165 14H18.0832"
-        stroke="white"
+        stroke={variant === "black" ? "#ffffff" : "#161616"}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

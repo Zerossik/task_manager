@@ -10,6 +10,7 @@ const router = createBrowserRouter([
   {
     element: <RootLayout />,
     hydrateFallbackElement: <PageLoader />,
+    errorElement: <div>This is error Page</div>,
     children: [
       HomeRoute,
       DashboardRoute,
