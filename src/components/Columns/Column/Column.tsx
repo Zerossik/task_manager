@@ -3,16 +3,19 @@ import Typography from "@mui/material/Typography";
 import type { Column as ColumnType } from "@/features/columns/columnSlice";
 import { IconButton } from "@ui/IconButton";
 import { EditIcon, DeleteIcon } from "@ui/icons";
-import type { Task } from "@/features/tasks/taskSlice";
 import type { DialogMode } from "../Columns";
+import { memo } from "react";
+import { useTasks } from "@/features/tasks/useTasks";
 
 type ColumnProps = {
   column: ColumnType;
   handleDialogMode: (mode: DialogMode) => void;
-  tasks: Task[];
 };
 
-export const Column = ({ column, handleDialogMode }: ColumnProps) => {
+const Column = ({ column, handleDialogMode }: ColumnProps) => {
+  const { getTasksByColumnId } = useTasks();
+
+  const tasks = getTasksByColumnId(column.id);
   return (
     <Stack
       sx={(theme) => ({
@@ -68,3 +71,5 @@ export const Column = ({ column, handleDialogMode }: ColumnProps) => {
     </Stack>
   );
 };
+
+export default memo(Column);

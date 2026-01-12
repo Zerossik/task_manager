@@ -2,9 +2,9 @@ import { List, ListItem, useTheme } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Button from "@ui/Button";
 import AddIcon from "../ui/icons/AddIcon";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import { Column } from "./Column/Column";
+import Column from "./Column/Column";
 import { useColumns } from "@/features/columns/useColumns";
 import { useTasks } from "@/features/tasks/useTasks";
 import { CreateColumnDialog } from "./CreateColumnDialog";
@@ -33,13 +33,13 @@ export const Columns = ({ boardID }: PropsType) => {
     deleteColumn,
     getColumnById,
   } = useColumns();
-  const { getTasksByColumnId, deleteTasksByColumnId } = useTasks();
+  const { deleteTasksByColumnId } = useTasks();
 
   const columns = getColumnsByBoardId(boardID);
 
-  const handleDialogMode = (dialogMode: DialogMode) => {
+  const handleDialogMode = useCallback((dialogMode: DialogMode) => {
     setDialog(dialogMode);
-  };
+  }, []);
 
   const handleSubmit = (title: string) => {
     switch (dialog.mode) {
@@ -103,11 +103,7 @@ export const Columns = ({ boardID }: PropsType) => {
           {columns.map((column) => (
             <ListItem key={column.id} disablePadding>
               {/* Рендерим компонент Column с действиями */}
-              <Column
-                column={column}
-                handleDialogMode={handleDialogMode}
-                tasks={getTasksByColumnId(column.id)}
-              />
+              <Column column={column} handleDialogMode={handleDialogMode} />
             </ListItem>
           ))}
         </Stack>
