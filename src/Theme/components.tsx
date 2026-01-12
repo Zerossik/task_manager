@@ -16,6 +16,8 @@ const LinkBehavior = React.forwardRef<
   return <RouterLink ref={ref} to={href} {...other} />;
 });
 
+LinkBehavior.displayName = "LinkBehavior";
+
 const brandedComponents: ThemeOptions["components"] = {
   MuiToolbar: {
     styleOverrides: {
@@ -35,6 +37,11 @@ const brandedComponents: ThemeOptions["components"] = {
     defaultProps: {
       component: LinkBehavior,
     } as LinkProps,
+    styleOverrides: {
+      root: {
+        display: "inline-block",
+      },
+    },
   },
   MuiCssBaseline: {
     styleOverrides: {

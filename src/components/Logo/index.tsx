@@ -1,4 +1,6 @@
-import { Typography, useTheme, type TypographyProps } from "@mui/material";
+import { useTheme, type TypographyProps } from "@mui/material";
+
+import Typography from "@mui/material/Typography";
 import Stack, { type StackProps } from "@mui/material/Stack";
 import { LogoIcon, type LogoIconType } from "./IconLogo";
 
@@ -16,7 +18,13 @@ const Logo = ({ slot, ...props }: PropsType) => {
 
   const iconVariant = theme.palette.mode === "dark" ? "light" : "dark";
   return (
-    <Stack direction="row" gap={2} alignItems="center" {...props}>
+    <Stack
+      direction="row"
+      gap={2}
+      alignItems="center"
+      {...props}
+      sx={{ display: "inline-flex" }}
+    >
       <LogoIcon variant={iconVariant} {...slot?.icon} />
       <Typography
         color="primary.contrastText"

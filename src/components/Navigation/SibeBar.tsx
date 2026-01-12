@@ -2,7 +2,7 @@ import Logo from "@/components/Logo";
 
 import Boards from "@/components/Navigation/SidebarBoards/Boards";
 import Stack from "@mui/material/Stack";
-import { Link } from "@mui/material";
+import Link from "@mui/material/Link";
 
 export const a = null;
 
@@ -21,7 +21,7 @@ const SideBar = () => {
         p: theme.layout.sidebar.padding,
       })}
     >
-      <Link href="/dashboard">
+      <Link href="/dashboard" sx={{ alignSelf: "flex-start" }}>
         <Logo
           sx={{
             "& svg": {
