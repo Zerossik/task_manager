@@ -41,36 +41,35 @@ export const Columns = ({ boardID }: PropsType) => {
     setDialog(dialogMode);
   }, []);
 
-  const handleSubmit = (title: string) => {
-    switch (dialog.mode) {
-      case "createColumn": {
-        createColumn({
-          boardId: boardID,
-          title: title.trim(),
-        });
-
-        break;
-      }
-      case "updateColumn": {
-        updateColumn(dialog.columnId, {
-          boardId: boardID,
-          title: title.trim(),
-        });
-        break;
-      }
-      case "deleteColumn": {
-        break;
-      }
-    }
+  const closeDialog = () => {
     handleDialogMode({ mode: null });
   };
 
-  const onDelete = () => {
+  const onUpdateColumn = (title: string) => {
+    if (dialog.mode !== "updateColumn") return;
+
+    updateColumn(dialog.columnId, {
+      boardId: boardID,
+      title: title.trim(),
+    });
+
+    closeDialog();
+  };
+
+  const onCreateColumn = (title: string) => {
+    createColumn({
+      boardId: boardID,
+      title: title.trim(),
+    });
+    closeDialog();
+  };
+
+  const onDeleteColumn = () => {
     if (dialog.mode !== "deleteColumn") return;
     deleteColumn(dialog.columnId);
     deleteTasksByColumnId(dialog.columnId);
 
-    handleDialogMode({ mode: null });
+    closeDialog();
   };
 
   return (
@@ -132,15 +131,15 @@ export const Columns = ({ boardID }: PropsType) => {
       {/* Dialogs */}
       <>
         <CreateColumnDialog
-          onClose={() => handleDialogMode({ mode: null })}
+          onClose={() => closeDialog()}
           open={dialog.mode === "createColumn"}
-          onSubmit={handleSubmit}
+          onSubmit={onCreateColumn}
         />
 
         {dialog.mode === "updateColumn" && (
           <UpdateColumnDialog
-            onClose={() => handleDialogMode({ mode: null })}
-            onSubmit={handleSubmit}
+            onClose={() => closeDialog()}
+            onSubmit={onUpdateColumn}
             column={getColumnById(dialog.columnId)}
           />
         )}
@@ -149,8 +148,8 @@ export const Columns = ({ boardID }: PropsType) => {
           <ConfirmationModal
             message="Are you sure you want to delete this column? All tasks in this column will be deleted as well."
             open={true}
-            onReject={() => handleDialogMode({ mode: null })}
-            onSuccess={() => onDelete()}
+            onReject={() => closeDialog()}
+            onSuccess={() => onDeleteColumn()}
           />
         )}
       </>

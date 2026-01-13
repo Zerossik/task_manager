@@ -6,6 +6,10 @@ import { EditIcon, DeleteIcon } from "@ui/icons";
 import type { DialogMode } from "../Columns";
 import { memo } from "react";
 import { useTasks } from "@/features/tasks/useTasks";
+import List from "@mui/material/List";
+import Button from "@ui/Button";
+import AddIcon from "@/components/ui/icons/AddIcon";
+import TaskCard from "@/components/Task/TaskCard";
 
 type ColumnProps = {
   column: ColumnType;
@@ -16,6 +20,7 @@ const Column = ({ column, handleDialogMode }: ColumnProps) => {
   const { getTasksByColumnId } = useTasks();
 
   const tasks = getTasksByColumnId(column.id);
+  const isNotEmptyTasks = tasks.length > 0;
   return (
     <Stack
       sx={(theme) => ({
@@ -58,15 +63,23 @@ const Column = ({ column, handleDialogMode }: ColumnProps) => {
       </Stack>
 
       {/* Область для задач с прокруткой */}
-      <Stack
-        sx={{
-          flex: 1,
-          overflowY: "auto",
-          gap: 2,
-        }}
-      >
-        {/* Временная заглушка для задач */}
-        <>Tasks will be here</>
+
+      <Stack sx={(theme) => ({ gap: theme.spacingConfig.blockGap.mobile })}>
+        {isNotEmptyTasks && (
+          <List>
+            {tasks.map((task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
+          </List>
+        )}
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+          startIcon={<AddIcon />}
+        >
+          add new task
+        </Button>
       </Stack>
     </Stack>
   );

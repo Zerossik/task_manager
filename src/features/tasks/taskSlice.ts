@@ -4,6 +4,7 @@ export interface Task {
   id: string;
   columnId: string;
   title: string;
+  description: string;
   created_at: string;
   deadline: string | null;
   is_completed: boolean;
