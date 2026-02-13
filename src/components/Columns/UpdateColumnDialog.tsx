@@ -22,13 +22,13 @@ export const UpdateColumnDialog = ({
   column,
 }: PropsType) => {
   const [title, setTitle] = useState(column?.title || "");
-  console.log(title);
   const isValidTitle = title.trim().length > 1;
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isValidTitle) return;
     onSubmit(title.trim());
+    onClose();
   };
 
   return (

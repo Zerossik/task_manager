@@ -24,6 +24,7 @@ export const CreateColumnDialog = ({ open, onClose, onSubmit }: PropsType) => {
     if (!isValidTitle) return;
     onSubmit(title.trim());
     setTitle("");
+    onClose();
   };
 
   return (
