@@ -16,7 +16,6 @@ export const Columns = ({ columns }: PropsType) => {
       disablePadding
       alignItems="stretch"
       sx={(theme) => ({
-        height: "100%",
         gap: theme.spacing(theme.spacingConfig.blockGap.mobile),
       })}
     >

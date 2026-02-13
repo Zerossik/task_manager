@@ -11,9 +11,11 @@ type TaskProps = {
 
 const TaskCard = ({ task }: TaskProps) => {
   return (
-    <Box sx={{ py: 3, px: 5 }}>
+    <Box sx={{ py: 3, px: 5, bgcolor: "background.paper", borderRadius: 2 }}>
       <Stack gap={2}>
-        <Typography>{task.title}</Typography>
+        <Typography variant="h4" color="textPrimary">
+          {task.title}
+        </Typography>
         <Typography
           color="text.secondary"
           sx={{
@@ -26,6 +28,10 @@ const TaskCard = ({ task }: TaskProps) => {
           {task.description}
         </Typography>
         <Divider />
+        <Stack direction="row" justifyContent="space-between">
+          <Stack>here is info</Stack>
+          <Stack>here is action</Stack>
+        </Stack>
       </Stack>
     </Box>
   );
