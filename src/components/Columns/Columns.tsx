@@ -1,158 +1,31 @@
-import { List, ListItem, useTheme } from "@mui/material";
+import { List, ListItem } from "@mui/material";
 import Stack from "@mui/material/Stack";
-import Button from "@ui/Button";
-import AddIcon from "../ui/icons/AddIcon";
-import { useCallback, useState } from "react";
 
 import Column from "./Column/Column";
-import { useColumns } from "@/features/columns/useColumns";
-import { useTasks } from "@/features/tasks/useTasks";
-import { CreateColumnDialog } from "./CreateColumnDialog";
-import { UpdateColumnDialog } from "./UpdateColumnDialog";
-import { ConfirmationModal } from "@/components/ConfirmationModal/ConfirmationModal";
-
-export type DialogMode =
-  | { mode: null }
-  | { mode: "createColumn" }
-  | { mode: "updateColumn"; columnId: string }
-  | { mode: "deleteColumn"; columnId: string };
+import type { Column as ColumnType } from "@/features/columns/columnSlice";
 
 type PropsType = {
-  boardID: string;
+  columns: ColumnType[];
 };
 
-export const Columns = ({ boardID }: PropsType) => {
-  const [dialog, setDialog] = useState<DialogMode>({ mode: null });
-  const theme = useTheme();
-  const mode = theme.palette.mode;
-
-  const {
-    getColumnsByBoardId,
-    createColumn,
-    updateColumn,
-    deleteColumn,
-    getColumnById,
-  } = useColumns();
-  const { deleteTasksByColumnId } = useTasks();
-
-  const columns = getColumnsByBoardId(boardID);
-
-  const handleDialogMode = useCallback((dialogMode: DialogMode) => {
-    setDialog(dialogMode);
-  }, []);
-
-  const closeDialog = () => {
-    handleDialogMode({ mode: null });
-  };
-
-  const onUpdateColumn = (title: string) => {
-    if (dialog.mode !== "updateColumn") return;
-
-    updateColumn(dialog.columnId, {
-      boardId: boardID,
-      title: title.trim(),
-    });
-
-    closeDialog();
-  };
-
-  const onCreateColumn = (title: string) => {
-    createColumn({
-      boardId: boardID,
-      title: title.trim(),
-    });
-    closeDialog();
-  };
-
-  const onDeleteColumn = () => {
-    if (dialog.mode !== "deleteColumn") return;
-    deleteColumn(dialog.columnId);
-    deleteTasksByColumnId(dialog.columnId);
-
-    closeDialog();
-  };
-
+export const Columns = ({ columns }: PropsType) => {
   return (
-    <>
-      <Stack
-        sx={(theme) => ({
-          overflowX: "auto",
-          gap: theme.spacingConfig.blockGap.mobile,
-          mx: -theme.spacingConfig.containerPadding.mobile,
-          px: theme.spacingConfig.containerPadding.mobile,
-          [theme.breakpoints.up("desktop")]: {
-            mx: -theme.spacingConfig.containerPadding.desktop,
-            px: theme.spacingConfig.containerPadding.desktop,
-          },
-        })}
-        direction="row"
-        alignItems="flex-start"
-        flex={1}
-      >
-        <Stack
-          component={List}
-          direction="row"
-          disablePadding
-          alignItems="stretch"
-          sx={(theme) => ({
-            height: "100%",
-            gap: theme.spacing(theme.spacingConfig.blockGap.mobile),
-          })}
-        >
-          {columns.map((column) => (
-            <ListItem key={column.id} disablePadding>
-              {/* Рендерим компонент Column с действиями */}
-              <Column column={column} handleDialogMode={handleDialogMode} />
-            </ListItem>
-          ))}
-        </Stack>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={
-            <AddIcon
-              variant={mode === "dark" ? "White" : "black"}
-              width={32}
-              height={32}
-            />
-          }
-          sx={{
-            width: 334,
-            padding: "20px 0",
-            flexShrink: 0,
-            borderRadius: 2,
-          }}
-          onClick={() => handleDialogMode({ mode: "createColumn" })}
-        >
-          Add column
-        </Button>
-      </Stack>
-
-      {/* Dialogs */}
-      <>
-        <CreateColumnDialog
-          onClose={() => closeDialog()}
-          open={dialog.mode === "createColumn"}
-          onSubmit={onCreateColumn}
-        />
-
-        {dialog.mode === "updateColumn" && (
-          <UpdateColumnDialog
-            onClose={() => closeDialog()}
-            onSubmit={onUpdateColumn}
-            column={getColumnById(dialog.columnId)}
-          />
-        )}
-
-        {dialog.mode === "deleteColumn" && (
-          <ConfirmationModal
-            message="Are you sure you want to delete this column? All tasks in this column will be deleted as well."
-            open={true}
-            onReject={() => closeDialog()}
-            onSuccess={() => onDeleteColumn()}
-          />
-        )}
-      </>
-    </>
+    <Stack
+      component={List}
+      direction="row"
+      disablePadding
+      alignItems="stretch"
+      sx={(theme) => ({
+        height: "100%",
+        gap: theme.spacing(theme.spacingConfig.blockGap.mobile),
+      })}
+    >
+      {columns.map((column) => (
+        <ListItem key={column.id} disablePadding>
+          {/* Рендерим компонент Column с действиями */}
+          <Column column={column} />
+        </ListItem>
+      ))}
+    </Stack>
   );
 };
