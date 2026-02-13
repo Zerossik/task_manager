@@ -12,6 +12,7 @@ import TaskCard from "@/components/Task/TaskCard";
 import { useColumns } from "@/features/columns/useColumns";
 import { UpdateColumnDialog } from "../UpdateColumnDialog";
 import { ConfirmationModal } from "@/components/ConfirmationModal/ConfirmationModal";
+import { CreateTaskDialog } from "@/components/Task";
 
 type ColumnProps = {
   column: ColumnType;
@@ -19,9 +20,9 @@ type ColumnProps = {
 
 const Column = ({ column }: ColumnProps) => {
   const [dialogMode, setDialogMode] = useState<
-    "updateColumn" | "deleteColumn" | null
+    "updateColumn" | "deleteColumn" | "createTask" | null
   >(null);
-  const { getTasksByColumnId, deleteTasksByColumnId } = useTasks();
+  const { getTasksByColumnId, deleteTasksByColumnId, createTask } = useTasks();
   const { updateColumn, deleteColumn } = useColumns();
 
   const tasks = getTasksByColumnId(column.id);
@@ -45,7 +46,9 @@ const Column = ({ column }: ColumnProps) => {
         sx={(theme) => ({
           width: 334,
           height: "100%",
-          gap: theme.spacing(theme.spacingConfig.blockGap.mobile),
+          overflow: "hidden",
+          // gap: theme.spacing(theme.spacingConfig.blockGap.mobile),
+          gap: 3,
         })}
       >
         {/* Заголовок колонки */}
@@ -56,7 +59,9 @@ const Column = ({ column }: ColumnProps) => {
           alignItems="center"
           sx={{ bgcolor: "background.paper", borderRadius: 2, p: 5 }}
         >
-          <Typography color="textPrimary">{column.title}</Typography>
+          <Typography color="textPrimary" variant="h3">
+            {column.title}
+          </Typography>
 
           {/* Кнопки действий */}
           <Stack direction="row">
@@ -79,9 +84,13 @@ const Column = ({ column }: ColumnProps) => {
 
         {/* Область для задач с прокруткой */}
 
-        <Stack sx={(theme) => ({ gap: theme.spacingConfig.blockGap.mobile })}>
+        <Stack
+          sx={(theme) => ({
+            gap: theme.spacingConfig.blockGap.mobile,
+          })}
+        >
           {isNotEmptyTasks && (
-            <List>
+            <List disablePadding>
               {tasks.map((task) => (
                 <TaskCard key={task.id} task={task} />
               ))}
@@ -92,6 +101,7 @@ const Column = ({ column }: ColumnProps) => {
             color="secondary"
             fullWidth
             startIcon={<AddIcon />}
+            onClick={() => setDialogMode("createTask")}
           >
             add new task
           </Button>
@@ -112,6 +122,21 @@ const Column = ({ column }: ColumnProps) => {
             open={true}
             onReject={() => setDialogMode(null)}
             onSuccess={() => onDeleteColumn()}
+          />
+        )}
+        {dialogMode === "createTask" && (
+          <CreateTaskDialog
+            open={true}
+            onClose={() => setDialogMode(null)}
+            onSubmit={(title, description) =>
+              createTask({
+                title,
+                description,
+                columnId: column.id,
+                deadline: null,
+                is_completed: false,
+              })
+            }
           />
         )}
       </>

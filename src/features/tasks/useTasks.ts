@@ -9,19 +9,18 @@ import {
 } from "@/features/tasks/taskSlice";
 import type { RootState } from "@/store/store";
 import { nanoid } from "@reduxjs/toolkit";
+import slugify from "slugify";
 
 type Response = { ok: true; task: Task } | { ok: false; error: string };
+type TaskData = Omit<Task, "id" | "created_at" | "slug">;
 
 export const useTasks = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state: RootState) => state.tasks);
 
   const createTask = useCallback(
-    (
-      columnId: string,
-      title: string,
-      deadline: string | null = null
-    ): Response => {
+    (task: TaskData): Response => {
+      const { title } = task;
       const trimmedTitle = title.trim();
       if (!trimmedTitle) {
         return {
@@ -31,28 +30,27 @@ export const useTasks = () => {
       }
       const id = nanoid(6);
       const created_at = new Date().toISOString();
+      const slug = slugify(title);
       const newTask: Task = {
+        ...task,
         id,
-        columnId,
-        title: trimmedTitle,
         created_at,
-        deadline,
-        is_completed: false,
+        slug,
       };
       dispatch(addTask(newTask));
       return { ok: true, task: newTask };
     },
-    [dispatch]
+    [dispatch],
   );
 
   const getTaskById = useCallback(
     (id: string) => tasks.find((task) => task.id === id) || null,
-    [tasks]
+    [tasks],
   );
 
   const getTasksByColumnId = useCallback(
     (columnId: string) => tasks.filter((task) => task.columnId === columnId),
-    [tasks]
+    [tasks],
   );
 
   const updateTaskById = useCallback(
@@ -65,21 +63,21 @@ export const useTasks = () => {
       dispatch(updateTask(updatedTask));
       return { ok: true, task: updatedTask };
     },
-    [tasks, dispatch]
+    [tasks, dispatch],
   );
 
   const deleteTaskById = useCallback(
     (id: string) => {
       dispatch(deleteTask(id));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const deleteTasksByColumnId = useCallback(
     (columnId: string) => {
       dispatch(deleteTasksByColumn(columnId));
     },
-    [dispatch]
+    [dispatch],
   );
 
   return {
