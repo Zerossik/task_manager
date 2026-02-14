@@ -29,9 +29,17 @@ const taskSlice = createSlice({
         state[index] = payload;
       }
     },
+    deleteTasksByColumnId: (state, { payload }: PayloadAction<string[]>) => {
+      return state.filter((task) => !payload.includes(task.columnId));
+    },
   },
 });
 
-export const { addTask, deleteTaskById, updateTaskById } = taskSlice.actions;
+export const {
+  addTask,
+  deleteTaskById,
+  updateTaskById,
+  deleteTasksByColumnId,
+} = taskSlice.actions;
 
 export default taskSlice.reducer;

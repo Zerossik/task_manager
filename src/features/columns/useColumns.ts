@@ -7,6 +7,7 @@ import {
   createColumn as createNewColumn,
   updateColumn as updateExistingColumn,
   deleteById,
+  deleteByBoardId,
 } from "./columnSlice";
 import { useTasks } from "@/features/tasks/useTasks";
 
@@ -49,20 +50,22 @@ export const useColumns = () => {
   // delete column and all tasks by Column ID
   const deleteColumn = useCallback(
     (id: string) => {
-      deleteTasksByColumnId(id);
+      deleteTasksByColumnId([id]);
       dispatch(deleteById(id));
     },
     [dispatch, deleteTasksByColumnId],
   );
 
-  // Удаление всех колонок по boardId
+  // delete all columns by boardId and all tasks by Column ID
   const deleteColumnsByBoard = useCallback(
     (boardId: string) => {
-      columns.forEach((column) => {
-        if (column.boardId === boardId) deleteColumn(column.id);
-      });
+      const columnsToDelete = columns
+        .filter((column) => column.boardId === boardId)
+        .map((column) => column.id);
+      deleteTasksByColumnId(columnsToDelete);
+      dispatch(deleteByBoardId(boardId));
     },
-    [columns, deleteColumn],
+    [columns, deleteTasksByColumnId, dispatch],
   );
 
   return {
