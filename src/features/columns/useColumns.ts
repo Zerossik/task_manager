@@ -7,25 +7,27 @@ import {
   createColumn as createNewColumn,
   updateColumn as updateExistingColumn,
   deleteById,
-  deleteColumnsByBoardId,
+  deleteByBoardId,
 } from "./columnSlice";
+import { useTasks } from "@/features/tasks/useTasks";
 
 export type CreateColumnData = Omit<Column, "id">;
 
 export const useColumns = () => {
   const dispatch = useDispatch();
   const columns = useSelector((state: RootState) => state.columns);
+  const { deleteTasksByColumnId } = useTasks();
 
   const getColumnById = useCallback(
     (id: string) => {
       return columns.find((column) => column.id === id);
     },
-    [columns]
+    [columns],
   );
 
   const getColumnsByBoardId = useCallback(
     (boardId: string) => columns.filter((column) => column.boardId === boardId),
-    [columns]
+    [columns],
   );
 
   const createColumn = useCallback(
@@ -34,7 +36,7 @@ export const useColumns = () => {
       const column = { id, ...data };
       dispatch(createNewColumn(column));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Обновление колонки
@@ -42,23 +44,28 @@ export const useColumns = () => {
     (id: string, data: CreateColumnData) => {
       dispatch(updateExistingColumn({ id, ...data }));
     },
-    [dispatch]
+    [dispatch],
   );
 
-  // Удаление колонки
+  // delete column and all tasks by Column ID
   const deleteColumn = useCallback(
     (id: string) => {
+      deleteTasksByColumnId([id]);
       dispatch(deleteById(id));
     },
-    [dispatch]
+    [dispatch, deleteTasksByColumnId],
   );
 
-  // Удаление всех колонок по boardId
+  // delete all columns by boardId and all tasks by Column ID
   const deleteColumnsByBoard = useCallback(
     (boardId: string) => {
-      dispatch(deleteColumnsByBoardId(boardId));
+      const columnsToDelete = columns
+        .filter((column) => column.boardId === boardId)
+        .map((column) => column.id);
+      deleteTasksByColumnId(columnsToDelete);
+      dispatch(deleteByBoardId(boardId));
     },
-    [dispatch]
+    [columns, deleteTasksByColumnId, dispatch],
   );
 
   return {

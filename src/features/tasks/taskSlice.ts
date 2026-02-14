@@ -29,8 +29,8 @@ const taskSlice = createSlice({
         state[index] = payload;
       }
     },
-    deleteTasksByColumnId: (state, { payload }: PayloadAction<string>) => {
-      return state.filter((task) => task.columnId !== payload);
+    deleteTasksByColumnId: (state, { payload }: PayloadAction<string[]>) => {
+      return state.filter((task) => !payload.includes(task.columnId));
     },
   },
 });

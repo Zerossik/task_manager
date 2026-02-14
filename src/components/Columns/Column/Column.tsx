@@ -22,7 +22,7 @@ const Column = ({ column }: ColumnProps) => {
   const [dialogMode, setDialogMode] = useState<
     "updateColumn" | "deleteColumn" | "createTask" | null
   >(null);
-  const { getTasksByColumnId, deleteTasksByColumnId, createTask } = useTasks();
+  const { getTasksByColumnId, createTask } = useTasks();
   const { updateColumn, deleteColumn } = useColumns();
 
   const tasks = getTasksByColumnId(column.id);
@@ -36,7 +36,6 @@ const Column = ({ column }: ColumnProps) => {
 
   const onDeleteColumn = () => {
     deleteColumn(column.id);
-    deleteTasksByColumnId(column.id);
   };
 
   const isNotEmptyTasks = tasks.length > 0;
