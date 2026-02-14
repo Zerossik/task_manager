@@ -4,7 +4,6 @@ import {
   addTask,
   deleteTaskById as deleteTask,
   updateTaskById as updateTask,
-  deleteTasksByColumnId as deleteTasksByColumn,
   type Task,
 } from "@/features/tasks/taskSlice";
 import type { RootState } from "@/store/store";
@@ -75,9 +74,11 @@ export const useTasks = () => {
 
   const deleteTasksByColumnId = useCallback(
     (columnId: string) => {
-      dispatch(deleteTasksByColumn(columnId));
+      tasks.forEach((task) => {
+        if (task.columnId === columnId) deleteTaskById(task.id);
+      });
     },
-    [dispatch],
+    [deleteTaskById, tasks],
   );
 
   return {

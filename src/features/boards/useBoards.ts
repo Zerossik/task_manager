@@ -10,12 +10,14 @@ import type { RootState } from "@/store/store";
 
 import { nanoid } from "@reduxjs/toolkit";
 import slugify from "slugify";
+import { useColumns } from "@/features/columns/useColumns";
 
 type Response = { ok: true; board: Board } | { ok: false; error: string };
 
 export const useBoards = () => {
   const dispatch = useDispatch();
   const boards = useSelector((state: RootState) => state.boards);
+  const { deleteColumnsByBoard } = useColumns();
 
   const createBoard = useCallback(
     (title: string): Response => {
@@ -32,17 +34,17 @@ export const useBoards = () => {
       dispatch(addBoard(newBoard));
       return { ok: true, board: newBoard };
     },
-    [boards, dispatch]
+    [boards, dispatch],
   );
 
   const getBoardById = useCallback(
     (id: string) => boards.find((board) => board.id === id) || null,
-    [boards]
+    [boards],
   );
 
   const getBoardBySlug = useCallback(
     (slug: string) => boards.find((board) => board.slug === slug) || null,
-    [boards]
+    [boards],
   );
 
   const updateBoardById = useCallback(
@@ -60,14 +62,15 @@ export const useBoards = () => {
       dispatch(updateBoard(updatedBoard));
       return { ok: true, board: updatedBoard };
     },
-    [boards, dispatch]
+    [boards, dispatch],
   );
 
   const deleteBoardById = useCallback(
     (id: string) => {
+      deleteColumnsByBoard(id);
       dispatch(deleteBoard(id));
     },
-    [dispatch]
+    [deleteColumnsByBoard, dispatch],
   );
 
   return {

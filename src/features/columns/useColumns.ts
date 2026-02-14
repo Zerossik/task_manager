@@ -7,25 +7,26 @@ import {
   createColumn as createNewColumn,
   updateColumn as updateExistingColumn,
   deleteById,
-  deleteColumnsByBoardId,
 } from "./columnSlice";
+import { useTasks } from "@/features/tasks/useTasks";
 
 export type CreateColumnData = Omit<Column, "id">;
 
 export const useColumns = () => {
   const dispatch = useDispatch();
   const columns = useSelector((state: RootState) => state.columns);
+  const { deleteTasksByColumnId } = useTasks();
 
   const getColumnById = useCallback(
     (id: string) => {
       return columns.find((column) => column.id === id);
     },
-    [columns]
+    [columns],
   );
 
   const getColumnsByBoardId = useCallback(
     (boardId: string) => columns.filter((column) => column.boardId === boardId),
-    [columns]
+    [columns],
   );
 
   const createColumn = useCallback(
@@ -34,7 +35,7 @@ export const useColumns = () => {
       const column = { id, ...data };
       dispatch(createNewColumn(column));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Обновление колонки
@@ -42,23 +43,26 @@ export const useColumns = () => {
     (id: string, data: CreateColumnData) => {
       dispatch(updateExistingColumn({ id, ...data }));
     },
-    [dispatch]
+    [dispatch],
   );
 
-  // Удаление колонки
+  // delete column and all tasks by Column ID
   const deleteColumn = useCallback(
     (id: string) => {
+      deleteTasksByColumnId(id);
       dispatch(deleteById(id));
     },
-    [dispatch]
+    [dispatch, deleteTasksByColumnId],
   );
 
   // Удаление всех колонок по boardId
   const deleteColumnsByBoard = useCallback(
     (boardId: string) => {
-      dispatch(deleteColumnsByBoardId(boardId));
+      columns.forEach((column) => {
+        if (column.boardId === boardId) deleteColumn(column.id);
+      });
     },
-    [dispatch]
+    [columns, deleteColumn],
   );
 
   return {
