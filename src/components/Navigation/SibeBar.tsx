@@ -1,6 +1,6 @@
 import Logo from "@/components/Logo";
 
-import Boards from "@/components/Navigation/SidebarBoards/Boards";
+import Boards from "@/components/Boards";
 import Stack from "@mui/material/Stack";
 import Link from "@mui/material/Link";
 

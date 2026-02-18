@@ -9,6 +9,7 @@ import { useTasks } from "@/features/tasks/useTasks";
 import { ConfirmationModal } from "@/components/ConfirmationModal/ConfirmationModal";
 import { UpdateTaskDialog } from "@/components/Task/UpdateTaskDialog";
 import type { Task } from "@/features/tasks/taskSlice";
+import { Link } from "@mui/material";
 
 type TaskProps = {
   task: Task;
@@ -35,19 +36,21 @@ const TaskCard = ({ task }: TaskProps) => {
   return (
     <Box sx={{ py: 3, px: 5, bgcolor: "background.paper", borderRadius: 2 }}>
       <Stack gap={2}>
-        <Typography
-          variant="h4"
-          color="textPrimary"
-          sx={{
-            display: "-webkit-box",
-            WebkitLineClamp: 1,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {task.title}
-        </Typography>
+        <Link href={task.slug}>
+          <Typography
+            variant="h4"
+            color="textPrimary"
+            sx={{
+              display: "-webkit-box",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {task.title}
+          </Typography>
+        </Link>
         <Typography
           color="text.secondary"
           sx={{

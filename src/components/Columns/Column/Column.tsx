@@ -10,9 +10,9 @@ import Button from "@ui/Button";
 import AddIcon from "@/components/ui/icons/AddIcon";
 import TaskCard from "@/components/Task/TaskCard";
 import { useColumns } from "@/features/columns/useColumns";
-import { UpdateColumnDialog } from "../UpdateColumnDialog";
 import { ConfirmationModal } from "@/components/ConfirmationModal/ConfirmationModal";
 import { CreateTaskDialog } from "@/components/Task";
+import { ColumnDialog } from "../ColumnDialog";
 
 type ColumnProps = {
   column: ColumnType;
@@ -42,13 +42,12 @@ const Column = ({ column }: ColumnProps) => {
   return (
     <>
       <Stack
-        sx={(theme) => ({
+        sx={{
           width: 334,
           height: "100%",
           overflow: "hidden",
-          // gap: theme.spacing(theme.spacingConfig.blockGap.mobile),
           gap: 3,
-        })}
+        }}
       >
         {/* Заголовок колонки */}
 
@@ -108,9 +107,10 @@ const Column = ({ column }: ColumnProps) => {
       </Stack>
       <>
         {dialogMode === "updateColumn" && (
-          <UpdateColumnDialog
+          <ColumnDialog
+            open={true}
             onClose={() => setDialogMode(null)}
-            onSubmit={onUpdateColumn}
+            onUpdate={onUpdateColumn}
             column={column}
           />
         )}

@@ -1,6 +1,6 @@
 import { BoardPageHeader } from "@/components/BoardPageHeader/BoardPageHeader";
+import { ColumnDialog } from "@/components/Columns/ColumnDialog";
 import { Columns } from "@/components/Columns/Columns";
-import { CreateColumnDialog } from "@/components/Columns/CreateColumnDialog";
 import { InnerContainer } from "@/components/ui/InnerContainer";
 import { useBoards } from "@/features/boards/useBoards";
 import { useColumns } from "@/features/columns/useColumns";
@@ -28,6 +28,10 @@ export const BoardPage = () => {
   const columns = getColumnsByBoardId(board.id);
 
   const mode = theme.palette.mode;
+
+  const onCreate = (title: string) => {
+    createColumn({ title, boardId: board.id });
+  };
 
   return (
     <>
@@ -83,10 +87,10 @@ export const BoardPage = () => {
           <Outlet />
         </InnerContainer>
       </Box>
-      <CreateColumnDialog
+      <ColumnDialog
         open={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
-        onSubmit={(title) => createColumn({ boardId: board.id, title })}
+        onCreate={onCreate}
       />
     </>
   );
