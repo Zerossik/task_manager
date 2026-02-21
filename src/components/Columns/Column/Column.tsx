@@ -45,7 +45,7 @@ const Column = ({ column }: ColumnProps) => {
       <Stack
         sx={{
           width: 334,
-          height: "100%",
+          maxHeight: "100%",
           overflow: "hidden",
           gap: 3,
         }}
@@ -82,14 +82,20 @@ const Column = ({ column }: ColumnProps) => {
         </Stack>
 
         {/* Область для задач с прокруткой */}
-
         <Stack
           sx={(theme) => ({
             gap: theme.spacingConfig.blockGap.mobile,
+            flex: 1,
+            minHeight: 0,
           })}
         >
           {isNotEmptyTasks && (
-            <Stack component={List} disablePadding gap={3}>
+            <Stack
+              component={List}
+              disablePadding
+              gap={3}
+              sx={{ maxHeight: "100%", overflowY: "auto" }}
+            >
               {tasks.map((task) => (
                 <ListItem key={task.id} disablePadding>
                   <TaskCard task={task} />
