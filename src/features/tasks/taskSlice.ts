@@ -4,7 +4,6 @@ export interface Task {
   id: string;
   columnId: string;
   title: string;
-  slug: string;
   description: string;
   created_at: string;
   deadline: string | null;

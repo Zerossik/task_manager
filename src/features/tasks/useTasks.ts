@@ -9,10 +9,9 @@ import {
 } from "@/features/tasks/taskSlice";
 import type { RootState } from "@/store/store";
 import { nanoid } from "@reduxjs/toolkit";
-import slugify from "slugify";
 
 type Response = { ok: true; task: Task } | { ok: false; error: string };
-type TaskData = Omit<Task, "id" | "created_at" | "slug">;
+export type TaskData = Omit<Task, "id" | "created_at">;
 
 export const useTasks = () => {
   const dispatch = useDispatch();
@@ -30,12 +29,11 @@ export const useTasks = () => {
       }
       const id = nanoid(6);
       const created_at = new Date().toISOString();
-      const slug = slugify(title);
+
       const newTask: Task = {
         ...task,
         id,
         created_at,
-        slug,
       };
       dispatch(addTask(newTask));
       return { ok: true, task: newTask };
@@ -54,7 +52,7 @@ export const useTasks = () => {
   );
 
   const updateTaskById = useCallback(
-    (id: string, updates: Partial<Task>): Response => {
+    (id: string, updates: Partial<TaskData>): Response => {
       const task = tasks.find((task) => task.id === id);
       if (!task) {
         return { ok: false, error: `Task with ID - ${id} not Found` };

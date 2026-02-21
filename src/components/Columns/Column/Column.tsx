@@ -11,8 +11,9 @@ import AddIcon from "@/components/ui/icons/AddIcon";
 import TaskCard from "@/components/Task/TaskCard";
 import { useColumns } from "@/features/columns/useColumns";
 import { ConfirmationModal } from "@/components/ConfirmationModal/ConfirmationModal";
-import { CreateTaskDialog } from "@/components/Task";
 import { ColumnDialog } from "../ColumnDialog";
+import { ListItem } from "@mui/material";
+import { TaskDialog } from "@/components/Task/TaskDialog";
 
 type ColumnProps = {
   column: ColumnType;
@@ -88,11 +89,13 @@ const Column = ({ column }: ColumnProps) => {
           })}
         >
           {isNotEmptyTasks && (
-            <List disablePadding>
+            <Stack component={List} disablePadding gap={3}>
               {tasks.map((task) => (
-                <TaskCard key={task.id} task={task} />
+                <ListItem key={task.id} disablePadding>
+                  <TaskCard task={task} />
+                </ListItem>
               ))}
-            </List>
+            </Stack>
           )}
           <Button
             variant="contained"
@@ -124,10 +127,10 @@ const Column = ({ column }: ColumnProps) => {
           />
         )}
         {dialogMode === "createTask" && (
-          <CreateTaskDialog
+          <TaskDialog
             open={true}
             onClose={() => setDialogMode(null)}
-            onSubmit={(title, description) =>
+            onCreate={(title, description) =>
               createTask({
                 title,
                 description,
