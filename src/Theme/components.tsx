@@ -44,13 +44,27 @@ const brandedComponents: ThemeOptions["components"] = {
     },
   },
   MuiCssBaseline: {
-    styleOverrides: {
+    styleOverrides: (theme) => ({
       "*, *::before, *::after": {
         margin: 0,
         padding: 0,
         boxSizing: "border-box",
+        scrollbarWidth: "thin",
+        scrollbarColor: `${theme.palette.secondary.main} transparent`,
       },
-    },
+      "*::-webkit-scrollbar": {
+        width: "6px",
+        height: "6px",
+      },
+      "*::-webkit-scrollbar-thumb": {
+        background: theme.palette.secondary.main,
+        borderRadius: "4px",
+      },
+      "*::-webkit-scrollbar-track": {
+        background: "transparent",
+        borderRadius: "2px",
+      },
+    }),
   },
   MuiContainer: {
     styleOverrides: {
