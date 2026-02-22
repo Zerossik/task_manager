@@ -51,6 +51,12 @@ declare module "@mui/material/styles" {
         tablet: number;
         desktop: number;
       };
+      spacingTokens: {
+        spacing_8: number;
+        spacing_16: number;
+        spacing_32: number;
+        spacing_40: number;
+      };
     };
   }
   // allow configuration using `createTheme()`
@@ -81,6 +87,12 @@ declare module "@mui/material/styles" {
         mobile?: number;
         tablet?: number;
         desktop?: number;
+      };
+      spacingTokens?: {
+        spacing_8?: number;
+        spacing_16?: number;
+        spacing_32?: number;
+        spacing_40?: number;
       };
     };
   }

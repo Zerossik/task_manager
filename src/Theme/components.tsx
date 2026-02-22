@@ -95,7 +95,8 @@ const brandedComponents: ThemeOptions["components"] = {
   MuiDialog: {
     styleOverrides: {
       paper: ({ theme }) => ({
-        padding: theme.spacing(6),
+        padding: theme.spacing(theme.spacingConfig.spacingTokens.spacing_16),
+        gap: theme.spacing(theme.spacingConfig.spacingTokens.spacing_16),
         margin: 0,
         width: `clamp(300px, calc(100% - ${theme.spacing(theme.spacingConfig.containerPadding.mobile)}), 500px)`,
         flexShrink: 0,
@@ -111,10 +112,12 @@ const brandedComponents: ThemeOptions["components"] = {
   },
   MuiDialogContent: {
     styleOverrides: {
-      root: {
-        // padding: `${theme.spacing(6)} 0`,
+      root: ({ theme }) => ({
+        display: "flex",
+        flexDirection: "column",
+        gap: theme.spacing(theme.spacingConfig.spacingTokens.spacing_16),
         padding: 0,
-      },
+      }),
     },
   },
   MuiDialogActions: {
@@ -140,9 +143,32 @@ const brandedComponents: ThemeOptions["components"] = {
     },
   },
   MuiTextField: {
+    defaultProps: {
+      size: "small",
+    },
     styleOverrides: {
       root: {
         width: "100%",
+      },
+    },
+  },
+  MuiOutlinedInput: {
+    styleOverrides: {
+      root: {
+        padding: 0,
+      },
+      sizeSmall: ({ theme }) => ({
+        "& .MuiInputBase-inputSizeSmall": {
+          padding: `${theme.spacing(theme.spacingConfig.spacingTokens.spacing_8)} ${theme.spacing(theme.spacingConfig.spacingTokens.spacing_8 * 1.5)}`,
+        },
+      }),
+    },
+  },
+  MuiFormHelperText: {
+    styleOverrides: {
+      root: {
+        margin: 0,
+        lineHeight: "100%",
       },
     },
   },

@@ -32,6 +32,12 @@ export const theme = createTheme({
     blockGap: {
       mobile: 5,
     },
+    spacingTokens: {
+      spacing_8: 2,
+      spacing_16: 4,
+      spacing_32: 8,
+      spacing_40: 10,
+    },
   },
   components,
   layout: {

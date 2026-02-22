@@ -9,13 +9,15 @@ import Button from "@ui/Button";
 import { useState, type FormEvent } from "react";
 import CustomAddIcon from "@ui/icons/AddIcon";
 import type { Task } from "@/features/tasks/taskSlice";
-import type { TaskData } from "@/features/tasks/useTasks";
+import type { TaskData, TaskResponse } from "@/features/tasks/useTasks";
+import { Typography } from "@mui/material";
+import { TaskPreview } from "./TaskPreview";
 
 type PropsType = {
   open: boolean;
   onClose: () => void;
   onCreate?: (title: string, description: string) => void;
-  onUpdate?: (data: Partial<TaskData>) => void;
+  onUpdate?: (data: Partial<TaskData>) => TaskResponse;
   task?: Task;
 };
 
@@ -44,44 +46,60 @@ export const TaskDialog = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <DialogTitle>{isPreview ? "Edit task" : "New task"}</DialogTitle>
-        <IconButton aria-label="close" onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      </Stack>
-
-      <DialogContent>
-        <Stack component="form" onSubmit={onSubmit}>
-          <TextField
-            color="secondary"
-            label="Title"
-            size="small"
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <TextField
-            color="secondary"
-            label="Description"
-            sx={{ maxHeight: 150, overflow: "auto" }}
-            size="small"
-            multiline
-            minRows={3}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <Button
-            type="submit"
-            color="secondary"
-            variant="contained"
-            startIcon={<CustomAddIcon />}
-            disabled={!isValidTitle}
+      {!isPreview && (
+        <DialogTitle>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
           >
-            {isPreview ? "Save changes" : "Add task"}
-          </Button>
-        </Stack>
-      </DialogContent>
+            <Typography>New task</Typography>
+            <IconButton aria-label="close" onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+          </Stack>
+        </DialogTitle>
+      )}
+
+      {/* Content for create task */}
+
+      {!isPreview && (
+        <DialogContent>
+          <Stack component="form" onSubmit={onSubmit}>
+            <TextField
+              color="secondary"
+              label="Title"
+              size="small"
+              required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <TextField
+              color="secondary"
+              label="Description"
+              sx={{ maxHeight: 150, overflow: "auto" }}
+              size="small"
+              multiline
+              minRows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <Button
+              type="submit"
+              color="secondary"
+              variant="contained"
+              startIcon={<CustomAddIcon />}
+              disabled={!isValidTitle}
+            >
+              Add task
+            </Button>
+          </Stack>
+        </DialogContent>
+      )}
+
+      {isPreview && onUpdate && (
+        <TaskPreview task={task} onClose={onClose} onUpdate={onUpdate} />
+      )}
     </Dialog>
   );
 };

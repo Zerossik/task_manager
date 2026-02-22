@@ -10,7 +10,9 @@ import {
 import type { RootState } from "@/store/store";
 import { nanoid } from "@reduxjs/toolkit";
 
-type Response = { ok: true; task: Task } | { ok: false; error: string };
+export type TaskResponse =
+  | { ok: true; task: Task }
+  | { ok: false; error: string };
 export type TaskData = Omit<Task, "id" | "created_at">;
 
 export const useTasks = () => {
@@ -18,7 +20,7 @@ export const useTasks = () => {
   const tasks = useSelector((state: RootState) => state.tasks);
 
   const createTask = useCallback(
-    (task: TaskData): Response => {
+    (task: TaskData): TaskResponse => {
       const { title } = task;
       const trimmedTitle = title.trim();
       if (!trimmedTitle) {
@@ -52,11 +54,23 @@ export const useTasks = () => {
   );
 
   const updateTaskById = useCallback(
-    (id: string, updates: Partial<TaskData>): Response => {
+    (id: string, updates: Partial<TaskData>): TaskResponse => {
       const task = tasks.find((task) => task.id === id);
       if (!task) {
         return { ok: false, error: `Task with ID - ${id} not Found` };
       }
+
+      const existingTitle = tasks.some(
+        (task) =>
+          task.title.toLowerCase() === updates.title?.toLowerCase().trim(),
+      );
+
+      if (existingTitle)
+        return {
+          ok: false,
+          error: `Task with title - ${updates.title} already exist`,
+        };
+
       const updatedTask = { ...task, ...updates };
       dispatch(updateTask(updatedTask));
       return { ok: true, task: updatedTask };
