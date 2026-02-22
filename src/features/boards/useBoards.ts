@@ -14,6 +14,8 @@ import { useColumns } from "@/features/columns/useColumns";
 
 type Response = { ok: true; board: Board } | { ok: false; error: string };
 
+type UpdateData = Partial<Board>;
+
 export const useBoards = () => {
   const dispatch = useDispatch();
   const boards = useSelector((state: RootState) => state.boards);
@@ -22,7 +24,9 @@ export const useBoards = () => {
   const createBoard = useCallback(
     (title: string): Response => {
       const trimmedTitle = title.trim();
-      const isExists = boards.some((board) => board.title === trimmedTitle);
+      const isExists = boards.some(
+        (board) => board.title.toLowerCase() === trimmedTitle.toLowerCase(),
+      );
       if (isExists)
         return {
           ok: false,
@@ -48,11 +52,13 @@ export const useBoards = () => {
   );
 
   const updateBoardById = useCallback(
-    (id: string, updates: Partial<Board>): Response => {
+    (id: string, updates: UpdateData): Response => {
       const board = boards.find((board) => board.id === id);
       if (!board)
         return { ok: false, error: `Board with ID - ${id} not Found` };
-      const isExist = boards.some((board) => board.title === updates.title);
+      const isExist = boards.some(
+        (board) => board.title.toLowerCase() === updates.title?.toLowerCase(),
+      );
       if (isExist)
         return {
           ok: false,

@@ -9,7 +9,7 @@ import { Outlet } from "react-router";
 
 const DashboardLayout = () => {
   const isOpenDrawer = useSelector(
-    ({ user }: RootState) => user.isDrawerOpenByDefault
+    ({ user }: RootState) => user.isDrawerOpenByDefault,
   );
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("desktop"));
 
@@ -26,11 +26,15 @@ const DashboardLayout = () => {
             ? `${theme.layout.sidebar.desktopWidth}px`
             : 0,
         height: "100vh",
+        overflow: "hidden",
         gap: theme.spacing(theme.spacingConfig.sectionGap.mobile),
       }}
     >
       <Header />
-      <Stack component="main" flex={1}>
+      <Stack
+        component="main"
+        sx={{ flex: 1, overflow: "hidden", minHeight: 0 }}
+      >
         <Outlet />
       </Stack>
     </Stack>

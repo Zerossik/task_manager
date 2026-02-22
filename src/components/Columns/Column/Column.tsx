@@ -10,9 +10,10 @@ import Button from "@ui/Button";
 import AddIcon from "@/components/ui/icons/AddIcon";
 import TaskCard from "@/components/Task/TaskCard";
 import { useColumns } from "@/features/columns/useColumns";
-import { UpdateColumnDialog } from "../UpdateColumnDialog";
 import { ConfirmationModal } from "@/components/ConfirmationModal/ConfirmationModal";
-import { CreateTaskDialog } from "@/components/Task";
+import { ColumnDialog } from "../ColumnDialog";
+import { ListItem } from "@mui/material";
+import { TaskDialog } from "@/components/Task/TaskDialog";
 
 type ColumnProps = {
   column: ColumnType;
@@ -42,13 +43,12 @@ const Column = ({ column }: ColumnProps) => {
   return (
     <>
       <Stack
-        sx={(theme) => ({
+        sx={{
           width: 334,
-          height: "100%",
+          maxHeight: "100%",
           overflow: "hidden",
-          // gap: theme.spacing(theme.spacingConfig.blockGap.mobile),
           gap: 3,
-        })}
+        }}
       >
         {/* Заголовок колонки */}
 
@@ -82,18 +82,26 @@ const Column = ({ column }: ColumnProps) => {
         </Stack>
 
         {/* Область для задач с прокруткой */}
-
         <Stack
           sx={(theme) => ({
             gap: theme.spacingConfig.blockGap.mobile,
+            flex: 1,
+            minHeight: 0,
           })}
         >
           {isNotEmptyTasks && (
-            <List disablePadding>
+            <Stack
+              component={List}
+              disablePadding
+              gap={3}
+              sx={{ maxHeight: "100%", overflowY: "auto" }}
+            >
               {tasks.map((task) => (
-                <TaskCard key={task.id} task={task} />
+                <ListItem key={task.id} disablePadding>
+                  <TaskCard task={task} />
+                </ListItem>
               ))}
-            </List>
+            </Stack>
           )}
           <Button
             variant="contained"
@@ -108,9 +116,10 @@ const Column = ({ column }: ColumnProps) => {
       </Stack>
       <>
         {dialogMode === "updateColumn" && (
-          <UpdateColumnDialog
+          <ColumnDialog
+            open={true}
             onClose={() => setDialogMode(null)}
-            onSubmit={onUpdateColumn}
+            onUpdate={onUpdateColumn}
             column={column}
           />
         )}
@@ -124,10 +133,10 @@ const Column = ({ column }: ColumnProps) => {
           />
         )}
         {dialogMode === "createTask" && (
-          <CreateTaskDialog
+          <TaskDialog
             open={true}
             onClose={() => setDialogMode(null)}
-            onSubmit={(title, description) =>
+            onCreate={(title, description) =>
               createTask({
                 title,
                 description,
