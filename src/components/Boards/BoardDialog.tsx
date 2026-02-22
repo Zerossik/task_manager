@@ -7,16 +7,9 @@ import TextField from "@ui/TextField";
 import Button from "@ui/Button";
 import CustomAddIcon from "@ui/icons/AddIcon";
 import { IconButton } from "@/components/ui/IconButton";
-import type { SxProps, Theme } from "@mui/material";
 import { useState, type FormEvent } from "react";
 import type { Board } from "@/features/boards/boardSlice";
 import { useBoards } from "@/features/boards/useBoards";
-
-const style = {
-  dialogClose: {
-    p: 0,
-  },
-} satisfies Record<string, SxProps<Theme>>;
 
 export interface UpdateBoardProps {
   board?: Board;
@@ -55,20 +48,15 @@ const BoardDialog = ({ onClose, open, board }: UpdateBoardProps) => {
     <Dialog open={open} onClose={onClose}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <DialogTitle>{isUpdate ? "Edit board" : "New board"}</DialogTitle>
-        <IconButton aria-label="close" onClick={onClose} sx={style.dialogClose}>
+        <IconButton aria-label="close" onClick={onClose} sx={{ p: 0 }}>
           <CloseIcon />
         </IconButton>
       </Stack>
       <DialogContent>
-        <Stack
-          component="form"
-          onSubmit={handlerSubmit}
-          sx={{ gap: 2, paddingTop: 2 }}
-        >
+        <Stack component="form" onSubmit={handlerSubmit}>
           <TextField
             color="secondary"
             label="title"
-            sx={{ width: 300 }}
             size="small"
             required
             value={title}

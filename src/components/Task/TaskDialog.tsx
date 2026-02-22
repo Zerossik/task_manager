@@ -51,15 +51,10 @@ export const TaskDialog = ({
         </IconButton>
       </Stack>
       <DialogContent>
-        <Stack
-          component="form"
-          onSubmit={onSubmit}
-          sx={{ gap: 2, paddingTop: 2 }}
-        >
+        <Stack component="form" onSubmit={onSubmit}>
           <TextField
             color="secondary"
             label="Title"
-            sx={{ width: 300 }}
             size="small"
             required
             value={title}
@@ -68,7 +63,7 @@ export const TaskDialog = ({
           <TextField
             color="secondary"
             label="Description"
-            sx={{ width: 300, maxHeight: 150, overflow: "auto" }}
+            sx={{ maxHeight: 150, overflow: "auto" }}
             size="small"
             multiline
             minRows={3}

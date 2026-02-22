@@ -97,6 +97,8 @@ const brandedComponents: ThemeOptions["components"] = {
       paper: ({ theme }) => ({
         padding: theme.spacing(6),
         margin: 0,
+        width: `clamp(300px, calc(100% - ${theme.spacing(theme.spacingConfig.containerPadding.mobile)}), 500px)`,
+        flexShrink: 0,
       }),
     },
   },
@@ -134,6 +136,13 @@ const brandedComponents: ThemeOptions["components"] = {
           case "large":
             return { fontSize: 32 };
         }
+      },
+    },
+  },
+  MuiTextField: {
+    styleOverrides: {
+      root: {
+        width: "100%",
       },
     },
   },

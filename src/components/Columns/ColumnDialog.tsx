@@ -46,15 +46,10 @@ export const ColumnDialog = ({
         </IconButton>
       </Stack>
       <DialogContent>
-        <Stack
-          component="form"
-          onSubmit={onSubmit}
-          sx={{ gap: 2, paddingTop: 2 }}
-        >
+        <Stack component="form" onSubmit={onSubmit}>
           <TextField
             color="secondary"
             label="title"
-            sx={{ width: 300 }}
             size="small"
             required
             value={title}
