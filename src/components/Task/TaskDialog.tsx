@@ -30,12 +30,12 @@ export const TaskDialog = ({
   const [description, setDescription] = useState<string>(
     task?.description || "",
   );
-  const isUpdate = task !== undefined;
+  const isPreview = task !== undefined;
   const isValidTitle = title.trim().length > 1;
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isUpdate) onCreate?.(title.trim(), description.trim());
+    if (!isPreview) onCreate?.(title.trim(), description.trim());
     else onUpdate?.({ title: title.trim(), description: description.trim() });
     onClose();
     setTitle("");
@@ -45,11 +45,12 @@ export const TaskDialog = ({
   return (
     <Dialog open={open} onClose={onClose}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <DialogTitle>{isUpdate ? "Edit task" : "New task"}</DialogTitle>
+        <DialogTitle>{isPreview ? "Edit task" : "New task"}</DialogTitle>
         <IconButton aria-label="close" onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </Stack>
+
       <DialogContent>
         <Stack component="form" onSubmit={onSubmit}>
           <TextField
@@ -77,7 +78,7 @@ export const TaskDialog = ({
             startIcon={<CustomAddIcon />}
             disabled={!isValidTitle}
           >
-            {isUpdate ? "Save changes" : "Add task"}
+            {isPreview ? "Save changes" : "Add task"}
           </Button>
         </Stack>
       </DialogContent>
