@@ -2,7 +2,7 @@ import type { SvgIconProps, StackProps, TypographyProps } from "@mui/material";
 import type { Theme, SxProps } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { LogoIcon } from "@shared/icons";
+import { LogoIcon } from "./IconLogo";
 
 const styles: Record<string, SxProps<Theme>> = {
   root: (theme) => ({
@@ -42,7 +42,7 @@ type PropsType = {
   slot?: SlotType;
 } & Omit<StackProps, "slot">;
 
-const Logo = ({ slot, ...props }: PropsType) => {
+export const Logo = ({ slot, ...props }: PropsType) => {
   return (
     <Box sx={styles.root} {...props}>
       <LogoIcon sx={styles.icon} {...slot?.icon} />
@@ -52,5 +52,3 @@ const Logo = ({ slot, ...props }: PropsType) => {
     </Box>
   );
 };
-
-export default Logo;
