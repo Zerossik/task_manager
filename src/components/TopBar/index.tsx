@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
 import { useColorScheme } from "@mui/material/styles";
 import { Navigation } from "@/components/Navigation";
-import { InnerContainer } from "@ui/InnerContainer";
+import { InnerContainer } from "@/shared/ui/InnerContainer";
 
 const Header = () => {
   const userName = useSelector((state: RootState) => state.user.userName);

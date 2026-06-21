@@ -3,10 +3,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
 import { CloseIcon } from "@ui/icons";
-import TextField from "@ui/TextField";
-import Button from "@ui/Button";
+import TextField from "@/shared/ui/TextField";
+import Button from "@/shared/ui/Button";
 import CustomAddIcon from "@ui/icons/AddIcon";
-import { IconButton } from "@/components/ui/IconButton";
+import { IconButton } from "@/shared/ui/IconButton";
 import type { SxProps, Theme } from "@mui/material";
 import type { ChangeEvent, FormEvent } from "react";
 

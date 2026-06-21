@@ -27,7 +27,9 @@
 
     "paths": {
       "@/*": ["./src/*"],
-      "@ui/*": ["./src/components/ui/*"]
+      "@pages/*": ["./src/pages/*"],
+      "@ui/*": ["./src/shared/ui/*"],
+      "@shared/*": ["./src/shared/*"]
     }
   },
   "include": ["src"]

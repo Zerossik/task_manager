@@ -2,7 +2,7 @@ import { useBoards } from "@/features/boards/useBoards";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import AddIcon from "@mui/icons-material/Add";
-import { IconButton } from "@/components/ui/IconButton";
+import { IconButton } from "@/shared/ui/IconButton";
 import BoardList from "./BoardList";
 import { type SxProps, type Theme } from "@mui/material";
 import { memo, useCallback, useState } from "react";
@@ -72,7 +72,7 @@ const Boards = () => {
         }
       }
     },
-    [getBoardById]
+    [getBoardById],
   );
 
   const onChangeTitle = (newValue: string) => {

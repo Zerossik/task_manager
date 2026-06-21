@@ -1,6 +1,6 @@
 import { List, ListItem, useTheme } from "@mui/material";
 import Stack from "@mui/material/Stack";
-import Button from "@ui/Button";
+import Button from "@/shared/ui/Button";
 import AddIcon from "../ui/icons/AddIcon";
 import { useCallback, useState } from "react";
 

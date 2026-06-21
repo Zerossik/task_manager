@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
-import PrimaryTextField from "@/components/ui/TextField";
+import PrimaryTextField from "@/shared/ui/TextField";
 import Box from "@mui/material/Box";
-import Button from "@/components/ui/Button";
+import Button from "@/shared/ui/Button";
 import Stack from "@mui/material/Stack";
 import PanToolAltOutlinedIcon from "@mui/icons-material/PanToolAltOutlined";
 import type { SxProps, Theme } from "@mui/material/styles";

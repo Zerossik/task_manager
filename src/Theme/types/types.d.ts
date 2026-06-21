@@ -84,4 +84,8 @@ declare module "@mui/material/styles" {
       };
     };
   }
+
+  // interface PaletteOptions {}
+
+  // interface Palette {}
 }

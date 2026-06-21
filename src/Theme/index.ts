@@ -4,6 +4,7 @@ import typography from "./typography";
 import components from "./components";
 
 export const theme = createTheme({
+  cssVariables: true,
   colorSchemes: {
     dark: { palette: darkPalette },
     light: { palette: lightPalette },
@@ -17,10 +18,13 @@ export const theme = createTheme({
       max: 1920,
     },
   },
+
   spacing: 4,
+
   shape: {
     borderRadius: 4,
   },
+
   spacingConfig: {
     sectionGap: {
       mobile: 5,

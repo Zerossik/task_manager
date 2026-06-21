@@ -1,6 +1,6 @@
 import { BoardPageHeader } from "@/components/BoardPageHeader/BoardPageHeader";
 import { Columns } from "@/components/Columns/Columns";
-import { InnerContainer } from "@/components/ui/InnerContainer";
+import { InnerContainer } from "@/shared/ui/InnerContainer";
 import { useBoards } from "@/features/boards/useBoards";
 import { useColumns } from "@/features/columns/useColumns";
 

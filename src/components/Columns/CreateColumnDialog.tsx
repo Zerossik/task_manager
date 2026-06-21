@@ -2,10 +2,10 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
-import Button from "@ui/Button";
-import TextField from "@ui/TextField";
+import Button from "@/shared/ui/Button";
+import TextField from "@/shared/ui/TextField";
 import AddIcon from "@ui/icons/AddIcon";
-import { IconButton } from "@ui/IconButton";
+import { IconButton } from "@/shared/ui/IconButton";
 import { CloseIcon } from "@ui/icons";
 import { useState, type FormEvent } from "react";
 type PropsType = {

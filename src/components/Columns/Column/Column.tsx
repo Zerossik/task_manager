@@ -1,13 +1,13 @@
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { Column as ColumnType } from "@/features/columns/columnSlice";
-import { IconButton } from "@ui/IconButton";
+import { IconButton } from "@/shared/ui/IconButton";
 import { EditIcon, DeleteIcon } from "@ui/icons";
 import type { DialogMode } from "../Columns";
 import { memo } from "react";
 import { useTasks } from "@/features/tasks/useTasks";
 import List from "@mui/material/List";
-import Button from "@ui/Button";
+import Button from "@/shared/ui/Button";
 import AddIcon from "@/components/ui/icons/AddIcon";
 import TaskCard from "@/components/Task/TaskCard";
 

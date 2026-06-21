@@ -4,7 +4,7 @@ import type { Board } from "@/features/boards/boardSlice";
 import ListItemButton from "@mui/material/ListItemButton";
 import { NavLink } from "react-router";
 import Box from "@mui/material/Box";
-import { IconButton } from "@ui/IconButton";
+import { IconButton } from "@/shared/ui/IconButton";
 import { DeleteIcon, EditIcon } from "@ui/icons";
 import type { SxProps } from "@mui/material";
 import { theme } from "@/Theme";
