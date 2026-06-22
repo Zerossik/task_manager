@@ -1,4 +1,4 @@
-import type { UpdateBoardProps } from "@/components/Navigation/SidebarBoards/CreateAndUpdateBoard";
+import type { UpdateBoardProps } from "@/components/Boards/BoardDialog";
 
 export type ModalPayloadMap = {
   createBoard: undefined;

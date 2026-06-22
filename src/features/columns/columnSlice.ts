@@ -16,7 +16,7 @@ const columnSlice = createSlice({
 
     updateColumn: (
       state,
-      { payload }: PayloadAction<Omit<Column, "boardId">>
+      { payload }: PayloadAction<Omit<Column, "boardId">>,
     ) => {
       const { id, ...data } = payload;
       const columnIndex = state.findIndex((board) => board.id === id);
@@ -31,18 +31,13 @@ const columnSlice = createSlice({
       const columnIndex = state.findIndex((board) => board.id === payload);
       if (columnIndex !== -1) state.splice(columnIndex, 1);
     },
-
-    deleteColumnsByBoardId: (state, { payload }: PayloadAction<string>) => {
+    deleteByBoardId: (state, { payload }: PayloadAction<string>) => {
       return state.filter((column) => column.boardId !== payload);
     },
   },
 });
 
-export const {
-  createColumn,
-  updateColumn,
-  deleteById,
-  deleteColumnsByBoardId,
-} = columnSlice.actions;
+export const { createColumn, updateColumn, deleteById, deleteByBoardId } =
+  columnSlice.actions;
 
 export default columnSlice.reducer;

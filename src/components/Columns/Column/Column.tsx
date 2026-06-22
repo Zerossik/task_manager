@@ -3,85 +3,152 @@ import Typography from "@mui/material/Typography";
 import type { Column as ColumnType } from "@/features/columns/columnSlice";
 import { IconButton } from "@ui/IconButton";
 import { EditIcon, DeleteIcon } from "@ui/icons";
-import type { DialogMode } from "../Columns";
-import { memo } from "react";
+import { memo, useState } from "react";
 import { useTasks } from "@/features/tasks/useTasks";
 import List from "@mui/material/List";
 import Button from "@ui/Button";
 import AddIcon from "@/components/ui/icons/AddIcon";
 import TaskCard from "@/components/Task/TaskCard";
+import { useColumns } from "@/features/columns/useColumns";
+import { ConfirmationModal } from "@/components/ConfirmationModal/ConfirmationModal";
+import { ColumnDialog } from "../ColumnDialog";
+import { ListItem } from "@mui/material";
+import { TaskDialog } from "@/components/Task/TaskDialog";
 
 type ColumnProps = {
   column: ColumnType;
-  handleDialogMode: (mode: DialogMode) => void;
 };
 
-const Column = ({ column, handleDialogMode }: ColumnProps) => {
-  const { getTasksByColumnId } = useTasks();
+const Column = ({ column }: ColumnProps) => {
+  const [dialogMode, setDialogMode] = useState<
+    "updateColumn" | "deleteColumn" | "createTask" | null
+  >(null);
+  const { getTasksByColumnId, createTask } = useTasks();
+  const { updateColumn, deleteColumn } = useColumns();
 
   const tasks = getTasksByColumnId(column.id);
+
+  const onUpdateColumn = (title: string) => {
+    updateColumn(column.id, {
+      boardId: column.boardId,
+      title: title.trim(),
+    });
+  };
+
+  const onDeleteColumn = () => {
+    deleteColumn(column.id);
+  };
+
   const isNotEmptyTasks = tasks.length > 0;
   return (
-    <Stack
-      sx={(theme) => ({
-        width: 334,
-        height: "100%",
-        gap: theme.spacing(theme.spacingConfig.blockGap.mobile),
-      })}
-    >
-      {/* Заголовок колонки */}
-
+    <>
       <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ bgcolor: "background.paper", borderRadius: 2, p: 5 }}
+        sx={{
+          width: 334,
+          maxHeight: "100%",
+          overflow: "hidden",
+          gap: 3,
+        }}
       >
-        <Typography color="textPrimary">{column.title}</Typography>
+        {/* Заголовок колонки */}
 
-        {/* Кнопки действий */}
-        <Stack direction="row">
-          <IconButton
-            onClick={() =>
-              handleDialogMode({ mode: "updateColumn", columnId: column.id })
-            }
-            aria-label="Edit column"
-            sx={{ p: 1 }}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ bgcolor: "background.paper", borderRadius: 2, p: 5 }}
+        >
+          <Typography color="textPrimary" variant="h3">
+            {column.title}
+          </Typography>
+
+          {/* Кнопки действий */}
+          <Stack direction="row">
+            <IconButton
+              onClick={() => setDialogMode("updateColumn")}
+              aria-label="Edit column"
+              sx={{ p: 1 }}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => setDialogMode("deleteColumn")}
+              aria-label="Delete column"
+              sx={{ p: 1 }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Stack>
+        </Stack>
+
+        {/* Область для задач с прокруткой */}
+        <Stack
+          sx={(theme) => ({
+            gap: theme.spacingConfig.blockGap.mobile,
+            flex: 1,
+            minHeight: 0,
+          })}
+        >
+          {isNotEmptyTasks && (
+            <Stack
+              component={List}
+              disablePadding
+              gap={3}
+              sx={{ maxHeight: "100%", overflowY: "auto" }}
+            >
+              {tasks.map((task) => (
+                <ListItem key={task.id} disablePadding>
+                  <TaskCard task={task} />
+                </ListItem>
+              ))}
+            </Stack>
+          )}
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+            startIcon={<AddIcon />}
+            onClick={() => setDialogMode("createTask")}
           >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            onClick={() =>
-              handleDialogMode({ mode: "deleteColumn", columnId: column.id })
-            }
-            aria-label="Delete column"
-            sx={{ p: 1 }}
-          >
-            <DeleteIcon />
-          </IconButton>
+            add new task
+          </Button>
         </Stack>
       </Stack>
-
-      {/* Область для задач с прокруткой */}
-
-      <Stack sx={(theme) => ({ gap: theme.spacingConfig.blockGap.mobile })}>
-        {isNotEmptyTasks && (
-          <List>
-            {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
-          </List>
+      <>
+        {dialogMode === "updateColumn" && (
+          <ColumnDialog
+            open={true}
+            onClose={() => setDialogMode(null)}
+            onUpdate={onUpdateColumn}
+            column={column}
+          />
         )}
-        <Button
-          variant="contained"
-          color="secondary"
-          fullWidth
-          startIcon={<AddIcon />}
-        >
-          add new task
-        </Button>
-      </Stack>
-    </Stack>
+
+        {dialogMode === "deleteColumn" && (
+          <ConfirmationModal
+            message="Are you sure you want to delete this column? All tasks in this column will be deleted as well."
+            open={true}
+            onReject={() => setDialogMode(null)}
+            onSuccess={() => onDeleteColumn()}
+          />
+        )}
+        {dialogMode === "createTask" && (
+          <TaskDialog
+            open={true}
+            onClose={() => setDialogMode(null)}
+            onCreate={(title, description) =>
+              createTask({
+                title,
+                description,
+                columnId: column.id,
+                deadline: null,
+                is_completed: false,
+              })
+            }
+          />
+        )}
+      </>
+    </>
   );
 };
 

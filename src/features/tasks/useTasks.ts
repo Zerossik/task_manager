@@ -4,24 +4,22 @@ import {
   addTask,
   deleteTaskById as deleteTask,
   updateTaskById as updateTask,
-  deleteTasksByColumnId as deleteTasksByColumn,
+  deleteTasksByColumnId as deleteAllTasksByColumnId,
   type Task,
 } from "@/features/tasks/taskSlice";
 import type { RootState } from "@/store/store";
 import { nanoid } from "@reduxjs/toolkit";
 
 type Response = { ok: true; task: Task } | { ok: false; error: string };
+export type TaskData = Omit<Task, "id" | "created_at">;
 
 export const useTasks = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state: RootState) => state.tasks);
 
   const createTask = useCallback(
-    (
-      columnId: string,
-      title: string,
-      deadline: string | null = null
-    ): Response => {
+    (task: TaskData): Response => {
+      const { title } = task;
       const trimmedTitle = title.trim();
       if (!trimmedTitle) {
         return {
@@ -31,32 +29,30 @@ export const useTasks = () => {
       }
       const id = nanoid(6);
       const created_at = new Date().toISOString();
+
       const newTask: Task = {
+        ...task,
         id,
-        columnId,
-        title: trimmedTitle,
         created_at,
-        deadline,
-        is_completed: false,
       };
       dispatch(addTask(newTask));
       return { ok: true, task: newTask };
     },
-    [dispatch]
+    [dispatch],
   );
 
   const getTaskById = useCallback(
     (id: string) => tasks.find((task) => task.id === id) || null,
-    [tasks]
+    [tasks],
   );
 
   const getTasksByColumnId = useCallback(
     (columnId: string) => tasks.filter((task) => task.columnId === columnId),
-    [tasks]
+    [tasks],
   );
 
   const updateTaskById = useCallback(
-    (id: string, updates: Partial<Task>): Response => {
+    (id: string, updates: Partial<TaskData>): Response => {
       const task = tasks.find((task) => task.id === id);
       if (!task) {
         return { ok: false, error: `Task with ID - ${id} not Found` };
@@ -65,21 +61,21 @@ export const useTasks = () => {
       dispatch(updateTask(updatedTask));
       return { ok: true, task: updatedTask };
     },
-    [tasks, dispatch]
+    [tasks, dispatch],
   );
 
   const deleteTaskById = useCallback(
     (id: string) => {
       dispatch(deleteTask(id));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const deleteTasksByColumnId = useCallback(
-    (columnId: string) => {
-      dispatch(deleteTasksByColumn(columnId));
+    (columnId: string[]) => {
+      dispatch(deleteAllTasksByColumnId(columnId));
     },
-    [dispatch]
+    [dispatch],
   );
 
   return {

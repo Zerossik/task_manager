@@ -44,13 +44,27 @@ const brandedComponents: ThemeOptions["components"] = {
     },
   },
   MuiCssBaseline: {
-    styleOverrides: {
+    styleOverrides: (theme) => ({
       "*, *::before, *::after": {
         margin: 0,
         padding: 0,
         boxSizing: "border-box",
+        scrollbarWidth: "thin",
+        scrollbarColor: `${theme.palette.secondary.main} transparent`,
       },
-    },
+      "*::-webkit-scrollbar": {
+        width: "6px",
+        height: "6px",
+      },
+      "*::-webkit-scrollbar-thumb": {
+        background: theme.palette.secondary.main,
+        borderRadius: "4px",
+      },
+      "*::-webkit-scrollbar-track": {
+        background: "transparent",
+        borderRadius: "2px",
+      },
+    }),
   },
   MuiContainer: {
     styleOverrides: {
@@ -83,6 +97,8 @@ const brandedComponents: ThemeOptions["components"] = {
       paper: ({ theme }) => ({
         padding: theme.spacing(6),
         margin: 0,
+        width: `clamp(300px, calc(100% - ${theme.spacing(theme.spacingConfig.containerPadding.mobile)}), 500px)`,
+        flexShrink: 0,
       }),
     },
   },
@@ -120,6 +136,13 @@ const brandedComponents: ThemeOptions["components"] = {
           case "large":
             return { fontSize: 32 };
         }
+      },
+    },
+  },
+  MuiTextField: {
+    styleOverrides: {
+      root: {
+        width: "100%",
       },
     },
   },
